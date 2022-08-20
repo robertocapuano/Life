@@ -22,7 +22,7 @@ export interface Options
 
 export class Simulation
 {
-    draw: any;
+    draw: () => void;
     _canvas: HTMLCanvasElement;
     _threshold: number;
     _ctx: any;
@@ -133,7 +133,7 @@ export class Simulation
   * Draw the background, painting over everything on the canvas.
   */
  drawBg() {
-   this._ctx.fillStyle = "black";
+   this._ctx.fillStyle = "white";
    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
  };
  
@@ -238,7 +238,7 @@ export class Simulation
  /**
   * Draw lines showing the boundaries of each cell.
   */
- drawGridLines(offsetX, offsetY) {
+ drawGridLines(offsetX: number = 0, offsetY: number = 0) {
    this._ctx.strokeStyle = '#888';
    for (var x = offsetX || 0; x < this._canvas.width; x += this._cellSize) {
      this._ctx.beginPath();
@@ -259,7 +259,7 @@ export class Simulation
  /**
   * Given coordinate pairs in (row, col) format, draw a line on the canvas.
   */
- drawScaledLine(a, b) {
+ drawScaledLine(a: number[], b: number[] ) {
    var x0 = a[1] * this._cellSize;
    var y0 = a[0] * this._cellSize;
    var x1 = b[1] * this._cellSize;
@@ -308,7 +308,7 @@ export class Simulation
  };
  
  drawSmoothContours() {
-   this._ctx.strokeStyle = "green";
+   this._ctx.strokeStyle = "red";
    for (var i = 0; i < this._cellTypes.length; i++) {
      for (var j = 0; j < this._cellTypes[i].length; j++) {
        var cellType = this._cellTypes[i][j];
@@ -348,6 +348,7 @@ export class Simulation
            compassCoords[polyCompassCorners[3]]
          );
        }
+
      }
    }
   }

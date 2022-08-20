@@ -1,4 +1,3 @@
-import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { Simulation } from "./simulation";
 
 (() => {
@@ -14,7 +13,6 @@ import { Simulation } from "./simulation";
     const ctx = canvas.getContext('2d');
     if (!ctx)
         return;
-
 
     var base = new Simulation({
         canvas: canvas,
@@ -33,11 +31,12 @@ import { Simulation } from "./simulation";
         circles: null,
         draw: function() {
             this.drawBg();
+            // this.drawGridLines();
             this.drawSmoothContours();
         },
     });
+
     var tick = function() {
-       
             smoothHighRes2.tickCircles();
             // Only recalculate and draw while the canvas is on the screen.
             smoothHighRes2.recalculate();
@@ -45,14 +44,6 @@ import { Simulation } from "./simulation";
 
         requestAnimationFrame(tick);
     };
-
-
-    // var baseTick = function() {
-    //     // if (!paused) {
-    //     smoothHighRes2.tickCircles();
-    //     // }
-    //     requestAnimationFrame(baseTick);
-    // };
 
     requestAnimationFrame(tick);
 
