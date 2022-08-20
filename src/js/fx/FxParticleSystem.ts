@@ -66,7 +66,7 @@ export class FxParticleSystem
         this.a.forEach( ai => ai.assign( 0, 0, ) );
     }
 
-    private update()
+    update()
     {
         for (let j=0; j<FX_ITERATIONS; ++j)
         {
@@ -209,6 +209,11 @@ export class FxParticleSystem
     getPos( p: FxParticle )
     {
         return this.p1[p];
+    }
+
+    count(): number
+    {
+        return this.p1.length;
     }
 
     // removeRange( r: FxRange )
