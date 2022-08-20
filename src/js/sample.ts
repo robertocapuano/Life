@@ -1,14 +1,22 @@
 /**
  * Sample an f(x, y) in a 2D grid.
  */
- export function sample(options) {
+ export function sample(options: {
+  minX: number;
+  maxX: number;
+  stepX: number;
+  minY: number;
+  maxY: number;
+  stepY: number;
+  fn: ( x: number, y: number) => number;
+ }) {
     const minX = options.minX;
     const maxX = options.maxX;
     const stepX = options.stepX;
   
     const minY = options.minY;
     const maxY = options.maxY;
-    const stepY = options.stepX;
+    const stepY = options.stepY;
   
     const fn = options.fn;
   
