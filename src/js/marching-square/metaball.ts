@@ -1,16 +1,24 @@
-import { Circle } from "./circle";
+import { FxParticleSystem } from "../fx/FxParticleSystem";
 
-export function metaball( x: number, y: number, circles: Array<Circle> )
+export function metaball( x: number, y: number, pSys: FxParticleSystem )
 {
     let sum = 0;
-    for (let i = 0; i < circles.length; i++)
+
+    const count = pSys.count();
+
+    for (let i = 0; i < count; i++)
     {
-        const c = circles[i];
-        const dx = x - c.x;
-        const dy = y - c.y;
+        const pos = pSys.getPos(i);
+        if (!pos)
+            continue;
+
+        const r = pSys.getRadius( i );
+        const r2 = r * r;
+        const dx = x - pos.x;
+        const dy = y - pos.y;
 
         const d2 = dx * dx + dy * dy;
-        sum += c.r2 / d2;
+        sum += r2 / d2;
     }
 
     return sum;

@@ -1,5 +1,5 @@
 import { FxConstraint, FxConstraints } from './FxConstraints';
-import { FxForce, FxForces } from './FxForces';
+import { FxCollisionForce, FxForce, FxForces } from './FxForces';
 import { FxParticle, FX_ITERATIONS, FX_PARTICLE_RADIUS, FX_VEL_DAMPING, FX_TIMESTEP_SQR, FxParticles } from './FxParticle';
 import { vec2, VEC2_ZERO } from './vec2';
 
@@ -72,6 +72,8 @@ export class FxParticleSystem
         {
             this.clean();
 
+            this.n2Collision();
+
             this.accumulateForces( this.fp );
             this.accumulateForces( this.ft );
     
@@ -83,6 +85,31 @@ export class FxParticleSystem
         
         this.ft.length = 0;
         this.ct.length = 0;
+    }
+
+
+    private n2Collision()
+    {
+        const p_count = this.count();
+    
+        for ( let u=0, l=p_count-1; u<l; ++u )
+            for ( let v=u+1; v<p_count; ++v )
+        {
+            const p_u = this.p1[u];
+            const p_v = this.p1[v];
+            
+            const delta = p_u.sub( p_v );
+            const delta_lenght = delta.mag();
+            
+            const LINK_DISTANCE = this.r[u] + this.r[v];
+            
+            if (delta_lenght<LINK_DISTANCE)
+            {
+                this.addTmpForce( FxCollisionForce( u, v, LINK_DISTANCE ) );
+            }
+            
+        }
+    
     }
 
     private verletInt()
@@ -123,7 +150,7 @@ export class FxParticleSystem
         }
     }
 
-    addParticle( pos: vec2 )
+    addParticle( pos: vec2, r = FX_PARTICLE_RADIUS, d=FX_VEL_DAMPING ): FxParticle
     {
         const pi = this.p0.length;
 
@@ -134,8 +161,8 @@ export class FxParticleSystem
         this.v.push( VEC2_ZERO() );
         this.a.push( VEC2_ZERO() );
 
-        this.r.push( FX_PARTICLE_RADIUS );
-        this.d.push( FX_VEL_DAMPING );
+        this.r.push( r );
+        this.d.push( d );
 
         return pi;
     }
@@ -214,6 +241,11 @@ export class FxParticleSystem
     count(): number
     {
         return this.p1.length;
+    }
+
+    getRadius( p: FxParticle ): number
+    {
+        return this.r[p];
     }
 
     // removeRange( r: FxRange )

@@ -1,6 +1,12 @@
-import { Simulation } from "./marching-square/simulation";
+import { FxParticleSystem } from "./fx/FxParticleSystem";
+import { metaball } from "./marching-square/metaball";
+import { MarchingSquare } from "./marching-square/marching-square";
+import { VEC2 } from "./fx/vec2";
+import { FxConstantForce } from "./fx/FxForces";
+import { ONE_SEC } from "./fx/FxParticle";
 
-(() => {
+(() =>
+{
 
     const width = 700;
     const height = 500;
@@ -14,37 +20,33 @@ import { Simulation } from "./marching-square/simulation";
     if (!ctx)
         return;
 
-    var base = new Simulation({
-        canvas: canvas,
-        cellSize: 100,
-        numCircles: 10,
-        draw: function() {},
-        threshold: 1,
-        circles: null,
-    });
+    const pSys = new FxParticleSystem();
+    pSys.setUp();
+    const i = pSys.addParticle( VEC2( 40, 40 ), 14 );
+    pSys.addParticle( VEC2( 60, 60 ) );
+    pSys.addTmpForce( FxConstantForce( i, VEC2( 1, 2 ).scale( ONE_SEC ) ));
 
-    var smoothHighRes2 = base.clone({
-        canvas: null,
+    const sim = new MarchingSquare({
+        canvas: canvas,
         cellSize: 5,
-        numCircles: null,
-        threshold: null,
-        circles: null,
-        draw: function() {
+        threshold: 1,
+        draw: function ()
+        {
             this.drawBg();
             // this.drawGridLines();
             this.drawSmoothContours();
         },
     });
 
-    var tick = function() {
-            smoothHighRes2.tickCircles();
-            // Only recalculate and draw while the canvas is on the screen.
-            smoothHighRes2.recalculate();
-            smoothHighRes2.draw();
+    const update = () =>
+    {
+        pSys.update();
+        sim.recalculate( (x: number, y: number) => metaball(x, y, pSys) );
+        sim.draw();
 
-        requestAnimationFrame(tick);
+        requestAnimationFrame(update);
     };
 
-    requestAnimationFrame(tick);
+    requestAnimationFrame(update);
 
 })();

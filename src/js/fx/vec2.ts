@@ -1,4 +1,3 @@
-export const VEC2_ZERO = () => new vec2(0,0);
 
 export class vec2
 {
@@ -135,3 +134,5 @@ export function mag( a: vec2 ): number
 }
 
 
+export const VEC2_ZERO = () => new vec2(0,0);
+export const VEC2 = vec2.VEC2;
