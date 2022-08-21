@@ -4,16 +4,15 @@ import { MarchingSquare } from "./marching-square/marching-square";
 import { VEC2 } from "./fx/vec2";
 import { FxConstantForce } from "./fx/FxForces";
 import { ONE_SEC } from "./fx/FxParticle";
+import { HEIGHT, WIDTH } from "./MainConstants";
+import * as Creatures from './creatures/creatures';
 
 (() =>
 {
 
-    const width = 700;
-    const height = 500;
-
     const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
     document.body.appendChild(canvas);
 
     const ctx = canvas.getContext('2d');
@@ -22,9 +21,8 @@ import { ONE_SEC } from "./fx/FxParticle";
 
     const pSys = new FxParticleSystem();
     pSys.setUp();
-    const i = pSys.addParticle( VEC2( 40, 40 ), 14 );
-    pSys.addParticle( VEC2( 60, 60 ) );
-    pSys.addTmpForce( FxConstantForce( i, VEC2( 1, 2 ).scale( ONE_SEC ) ));
+
+    Creatures.createSkeleton( pSys );
 
     const sim = new MarchingSquare({
         canvas: canvas,

@@ -1,5 +1,5 @@
 import { clamp } from "../math";
-import { FxParticle, FxParticleCheck, FxPos, } from "./FxParticle";
+import { FxParticle, FxPos } from "./FxParticle";
 import { mag, sub, vec2 } from "./vec2";
 
 export type FxConstraint = [ ( p1: FxPos[] ) => void, ( p: FxParticle ) => boolean ];
@@ -9,7 +9,7 @@ export function LinkConstraint(
     u: FxParticle, 
     v: FxParticle, 
     min_length: number, 
-    max_length: number=min_length 
+    max_length: number=min_length,
 ): FxConstraint
  {
     return [ 
