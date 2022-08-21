@@ -1,19 +1,22 @@
 import { FxParticle, FxParticleCheck, FxPos, INV_FRAMETIME_SQR } from "./FxParticle";
 import { vec2 } from "./vec2";
 
-export type FxForce = [ ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => void, ( p: FxParticle ) => boolean ]; 
+export type FxForce = {
+    actuator: ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => void,
+    checker: ( p: FxParticle ) => boolean,
+};
 export type FxForces = Array<FxForce>;
 
 export function FxConstantForce( 
     u: FxParticle, 
     f: vec2 
 ): FxForce {
-    return [
-        ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => {
+    return {
+        actuator: ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => {
             a[u].addInPlace( f );
         },
-        ( p: FxParticle ) => (p === u),
-    ];
+        checker: ( p: FxParticle ) => (p === u),
+    };
 }
 
 export function FxCollisionForce( 
@@ -21,8 +24,8 @@ export function FxCollisionForce(
     v: FxParticle, 
     link_length: number 
 ): FxForce {
-    return [
-        ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => {
+    return {
+        actuator: ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => {
             const p_u = p1[u];
             const p_v = p1[v];
             
@@ -44,6 +47,6 @@ export function FxCollisionForce(
             a_u.addInPlace(fu);
             a_v.addInPlace(fv);
         },
-        ( p: FxParticle ) => (p === u || p === v),
-    ];
+        checker: ( p: FxParticle ) => (p === u || p === v),
+    };
 }

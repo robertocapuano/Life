@@ -8,4 +8,8 @@ export function createSkeleton( pSys: FxParticleSystem)
     const i = pSys.addParticle( VEC2( 40, 40 ), 14 );
     pSys.addParticle( VEC2( 60, 60 ) );
     pSys.addTmpForce( FxConstantForce( i, VEC2( 1, 2 ).scale( ONE_SEC ) ));
+
+    // for 
+
 }
+

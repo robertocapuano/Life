@@ -2,7 +2,10 @@ import { clamp } from "../math";
 import { FxParticle, FxPos } from "./FxParticle";
 import { mag, sub, vec2 } from "./vec2";
 
-export type FxConstraint = [ ( p1: FxPos[] ) => void, ( p: FxParticle ) => boolean ];
+export type FxConstraint = { 
+    actuator: ( p1: FxPos[] ) => void, 
+    checker: ( p: FxParticle ) => boolean,
+}
 export type FxConstraints = Array<FxConstraint>;
 
 export function LinkConstraint( 
@@ -12,8 +15,8 @@ export function LinkConstraint(
     max_length: number=min_length,
 ): FxConstraint
  {
-    return [ 
-        ( p: Array<vec2> ) => {
+    return {
+        actuator: ( p: Array<vec2> ) => {
 
             const p_u = p[u];
             const p_v = p[v];
@@ -28,7 +31,7 @@ export function LinkConstraint(
             p_u.addInPlace( delta );
             p_v.addInPlace( delta );
         },
-        ( p: FxParticle ) => ( p === u || p === v ),
+        checker: ( p: FxParticle ) => ( p === u || p === v ),
     ];
 }
 
