@@ -3,8 +3,8 @@ import { FxParticle, FxPos } from "./FxParticle";
 import { mag, sub, vec2 } from "./vec2";
 
 export type FxConstraint = { 
-    actuator: ( p1: FxPos[] ) => void, 
-    checker: ( p: FxParticle ) => boolean,
+    apply: ( p1: FxPos[] ) => void, 
+    has: ( p: FxParticle ) => boolean,
 }
 export type FxConstraints = Array<FxConstraint>;
 
@@ -16,7 +16,7 @@ export function LinkConstraint(
 ): FxConstraint
  {
     return {
-        actuator: ( p: Array<vec2> ) => {
+        apply: ( p: Array<vec2> ) => {
 
             const p_u = p[u];
             const p_v = p[v];
@@ -31,8 +31,8 @@ export function LinkConstraint(
             p_u.addInPlace( delta );
             p_v.addInPlace( delta );
         },
-        checker: ( p: FxParticle ) => ( p === u || p === v ),
-    ];
+        has: ( p: FxParticle ) => ( p === u || p === v ),
+    };
 }
 
 // export function DistanceConstraint( u: number, pivot_pos: vec3, min_dist: number, max_dist: number=min_dist ): FxConstraint

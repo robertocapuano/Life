@@ -1,3 +1,4 @@
+import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { classifyCells } from "./classify-cells";
 import { lerp } from "./lerp";
@@ -135,15 +136,21 @@ export class MarchingSquare
   /**
    * Draw the outlines of the circles.
    */
-  //  drawCircles(color: string) {
-  //    this._ctx.strokeStyle = color || 'green';
-  //    for (var i = 0; i < this._circles.length; i++) {
-  //      var c = this._circles[i];
-  //      this._ctx.beginPath();
-  //      this._ctx.arc(c.x, c.y, c.r, 0, 2 * Math.PI);
-  //      this._ctx.stroke();
-  //    }
-  //  };
+  drawCircles(pSys: FxParticleSystem, color = 'green')
+  {
+    this._ctx.strokeStyle = color;
+    const count = pSys.count();
+
+    for (let i = 0; i < count; i++)
+    {
+      const c = pSys.getPos(i);
+      if (!c) continue;
+      const r = pSys.getRadius(i);
+      this._ctx.beginPath();
+      this._ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
+      this._ctx.stroke();
+    }
+  };
 
   /**
    * Draw the corners samples along with the values of those samples.

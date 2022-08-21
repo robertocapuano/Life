@@ -139,14 +139,14 @@ export class FxParticleSystem
     
     private accumulateForces( f: FxForces )
     {
-        f.forEach( fi => fi.actuator( this.p1, this.p0, this.a ) );
+        f.forEach( fi => fi.apply( this.p1, this.p0, this.a ) );
     }
 
     private satisfyConstraints( c: FxConstraints )
     {
         for ( let j=0; j<FX_ITERATIONS; j++)
         {
-            c.forEach( ci => ci.actuator( this.p1 ) );
+            c.forEach( ci => ci.apply( this.p1 ) );
         }
     }
 
@@ -169,8 +169,8 @@ export class FxParticleSystem
 
     removeParticle( p: FxParticle )
     {
-        this.fp = this.fp.filter( fi => !fi.checker(p) );
-        this.cp = this.cp.filter( ci => !ci.checker(p) );
+        this.fp = this.fp.filter( fi => !fi.has(p) );
+        this.cp = this.cp.filter( ci => !ci.has(p) );
 
         if ( p === this.p1.length-1 )
             this.removeTailParticles( p );
