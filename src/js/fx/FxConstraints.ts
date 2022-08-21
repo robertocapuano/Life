@@ -8,7 +8,7 @@ export type FxConstraint = {
 }
 export type FxConstraints = Array<FxConstraint>;
 
-export function LinkConstraint( 
+export function FxLinkConstraint( 
     u: FxParticle, 
     v: FxParticle, 
     min_length: number, 
@@ -28,7 +28,7 @@ export function LinkConstraint(
 
             delta.scaleInPlace( .5 * diff );
 
-            p_u.addInPlace( delta );
+            p_u.subInPlace( delta );
             p_v.addInPlace( delta );
         },
         has: ( p: FxParticle ) => ( p === u || p === v ),

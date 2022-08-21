@@ -74,8 +74,8 @@ export class FxParticleSystem
 
             this.n2Collision();
 
-            this.accumulateForces( this.fp );
             this.accumulateForces( this.ft );
+            this.accumulateForces( this.fp );
     
             this.verletInt();
     

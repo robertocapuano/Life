@@ -23,6 +23,12 @@ export class vec2
         this.y += b.y;
     }
 
+    subInPlace( b: vec2 ): void
+    {
+        this.x -= b.x;
+        this.y -= b.y;
+    }
+
     negate(): vec2
     {
         const a = this;
