@@ -5,6 +5,11 @@ import { lerp } from "./lerp";
 import { sample } from "./sample";
 import { threshold } from "./threshold";
 
+const CIRCLE_CLR = 'white';
+const SHADOW_CLR = '#91866e';
+const LIGHT_CLR = 'white';
+const LIFE_CLR = 'black';
+
 export interface Options
 {
   draw: () => void | null;
@@ -129,14 +134,50 @@ export class MarchingSquare
    */
   drawBg()
   {
-    this._ctx.fillStyle = "white";
-    this._ctx.fillRect(0, 0, this._canvas.width, this._canvas.height);
+    const ctx = this._ctx;
+
+    const W =  this._canvas.width;
+    const H = this._canvas.height;
+
+    {
+
+      const gradient = ctx.createLinearGradient(0,H, W,0);
+      gradient.addColorStop(0, '#9437ff');
+      gradient.addColorStop(.5, '#942193');
+      gradient.addColorStop(1, '#0096ff');
+      ctx.fillStyle = gradient;
+
+      // this._ctx.fillStyle = SHADOW_CLR;
+      ctx.fillRect(0, 0, W, H );
+    }
+
+    if (false)
+    {
+
+      const gradient = ctx.createRadialGradient( 0, H, 50, 550, 50, 75);
+
+      // const gradient = ctx.createLinearGradient(W,0, 100,100);
+      gradient.addColorStop(0, 'red' );//'#ebebeb');
+      gradient.addColorStop(1, 'blue');//'#fff');
+      // gradient.addColorStop(1, '#ebebeb');
+      ctx.fillStyle = gradient;
+
+      // this._ctx.fillStyle = LIGHT_CLR;
+      // ctx.beginPath();
+      // ctx.moveTo( 0, 0 );
+      // ctx.lineTo( this._canvas.width, 200);
+      // ctx.lineTo(this._canvas.width, 0);
+      // ctx.fill();
+
+      ctx.fillRect( 0, 0, W, H );
+    }
+
   };
 
   /**
    * Draw the outlines of the circles.
    */
-  drawCircles(pSys: FxParticleSystem, color = 'green')
+  drawCircles(pSys: FxParticleSystem, color = CIRCLE_CLR )
   {
     this._ctx.strokeStyle = color;
     const count = pSys.count();
@@ -335,7 +376,7 @@ export class MarchingSquare
 
   drawSmoothContours()
   {
-    this._ctx.strokeStyle = "red";
+    this._ctx.strokeStyle = LIFE_CLR;
     for (var i = 0; i < this._cellTypes.length; i++)
     {
       for (var j = 0; j < this._cellTypes[i].length; j++)

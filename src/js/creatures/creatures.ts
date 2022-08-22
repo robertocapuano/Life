@@ -11,9 +11,9 @@ import { Modulo } from "../math";
 export function createSkeleton( pSys: FxParticleSystem)
 {
     const R = 10;
-    if (false)
+
     {
-        const N = 10;
+        const N = 5;
         const D = 2 * R;
 
         const PX = WIDTH * .5;
@@ -52,11 +52,12 @@ export function createSkeleton( pSys: FxParticleSystem)
 
         for ( let i=0; i<_M; ++i )
         {
-            const j = Modulo( i-1, _M );
+            const u = ps[i];
+            const v = ps[Modulo( i-1, _M )];
             // const k = Modulo( i+1, _M );
 
             // LOGI( `${j}-${i} `);
-            pSys.addConstraint( FxLinkConstraint( j, i, 2*R, 2.5*R ));
+            pSys.addConstraint( FxLinkConstraint( u, v, 2*R, 2.5*R ));
 
         }
 

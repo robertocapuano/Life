@@ -31,7 +31,7 @@ import * as Creatures from './creatures/creatures';
         draw: function ()
         {
             this.drawBg();
-            // this.drawCircles(pSys);
+            this.drawCircles(pSys);
             // this.drawGridLines();
             this.drawSmoothContours();
         },

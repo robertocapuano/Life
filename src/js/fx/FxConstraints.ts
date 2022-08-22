@@ -24,7 +24,7 @@ export function FxLinkConstraint(
             const delta = sub( p_u, p_v );
             const delta_length = mag(delta);
             const rest_length = clamp( delta_length, min_length, max_length );
-            const diff = (delta_length- rest_length)/rest_length;
+            const diff = (delta_length - rest_length) / rest_length;
 
             delta.scaleInPlace( .5 * diff );
 
