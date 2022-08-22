@@ -146,7 +146,8 @@ export class MarchingSquare
       gradient.addColorStop(.75, '#942193');
       // gradient.addColorStop(1, '#0096ff');
       gradient.addColorStop(1, '#ffffff');
-      ctx.fillStyle = gradient;
+      // ctx.fillStyle = gradient;
+      ctx.fillStyle = '#942193';
 
       // this._ctx.fillStyle = SHADOW_CLR;
       ctx.fillRect(0, 0, W, H );
