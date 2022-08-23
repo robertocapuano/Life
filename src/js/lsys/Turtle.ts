@@ -6,8 +6,8 @@ export class Turtle
 {
     constructor(
         public pos: vec2,
-        public alpha: number,
         public step: number,
+        public alpha: number,
         public last_part: number = -1,
     ) {}
 

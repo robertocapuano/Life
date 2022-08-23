@@ -9,7 +9,6 @@ export class LSystem
 {
     constructor( 
         public rules: Map<string,string>,
-        public omega: string,
     ) {
     }
 
