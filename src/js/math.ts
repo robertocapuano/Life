@@ -1,3 +1,9 @@
+export const { cos } = Math;
+export const { sin } = Math;
+
+export const { PI } = Math;
+export const TWOPI = 2 * PI;
+export const PI_2 = .5 * PI;
 
 export function clamp( x: number, min: number, max: number )
 {

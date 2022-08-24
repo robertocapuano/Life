@@ -8,7 +8,7 @@ import { HEIGHT, WIDTH } from "./MainConstants";
 import * as Creatures from './creatures/creatures';
 import { LSystem } from "./lsys/LSystem";
 import { Turtle } from "./lsys/Turtle";
-import { RAD } from "./math";
+import { PI_2, RAD } from "./math";
 
 (() =>
 {
@@ -33,7 +33,7 @@ import { RAD } from "./math";
         );
 
         const word = lSys.applyProd('F');
-        const turtle = new Turtle( VEC2(WIDTH * .5, HEIGHT * .5 ), 30, RAD(45),  );
+        const turtle = new Turtle( VEC2(WIDTH * .5, HEIGHT * .5 ), RAD(90), 60, RAD(45),  );
         lSys.applyTurtle(turtle, word, pSys, );
     }
 
