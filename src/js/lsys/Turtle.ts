@@ -34,7 +34,13 @@ export class Turtle
 
     fork(): Turtle
     {
-        return new Turtle( this.pos, this.angle, this.alpha, this.step, this.last_part );
+        return new Turtle( 
+            this.pos, 
+            this.angle, 
+            this.alpha, 
+            this.step, 
+            this.last_part 
+        );
     }
     
 }
