@@ -98,6 +98,11 @@ export class vec2
     {
         return new vec2( this.x, this.y );
     }
+
+    toString(): string
+    {
+        return `[${this.x},${this.y}]`;
+    }
 }
 
 

@@ -1,5 +1,6 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { vec2 } from "../fx/vec2";
+import { LOGI } from "../logs";
 import { cos, sin } from "../math";
 
 export class Turtle
@@ -14,12 +15,12 @@ export class Turtle
 
     forward( pSys: FxParticleSystem )
     {
-        const u = pSys.addParticle( this.pos );
-
         this.pos.x += this.step * cos( this.angle );
         this.pos.y += this.step * sin( this.angle );
 
+        const u = pSys.addParticle( this.pos );
         this.last_part = u;
+        LOGI(`add particle at ${this.pos.toString() }`);
     }
 
     right()
@@ -29,16 +30,16 @@ export class Turtle
 
     left()
     {
-        this.angle += this.alpha;
+        this.angle -= this.alpha;
     }
 
     fork(): Turtle
     {
         return new Turtle( 
-            this.pos, 
+            this.pos.clone(), 
             this.angle, 
-            this.alpha, 
             this.step, 
+            this.alpha, 
             this.last_part 
         );
     }

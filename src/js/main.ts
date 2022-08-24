@@ -28,13 +28,18 @@ import { PI_2, RAD } from "./math";
     // Creatures.createSkeleton( pSys );
     {
         const lSys = new LSystem(new Map<string,string>([
-            ['F','FFF'],
+            ['F','F[+F]F[-F]F'],
             ]),
         );
 
-        const word = lSys.applyProd('F');
-        const turtle = new Turtle( VEC2(WIDTH * .5, HEIGHT * .5 ), RAD(90), 60, RAD(45),  );
-        lSys.applyTurtle(turtle, word, pSys, );
+        const word = lSys.applyProd('F',1);
+        const turtle = new Turtle( 
+            VEC2(WIDTH * .5, HEIGHT ), 
+            RAD(-90), 
+            60, 
+            RAD(45),  
+        );
+        lSys.applyTurtle( turtle, word, pSys, );
     }
 
     {

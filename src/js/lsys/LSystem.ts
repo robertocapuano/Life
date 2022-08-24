@@ -1,9 +1,6 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
-import { Production } from "./Production";
-import { Turtle } from "./Turtle";
 import { Symbols } from './Symbols';
-import { VEC2 } from "../fx/vec2";
-import { WIDTH, HEIGHT } from "../MainConstants";
+import { Turtle } from "./Turtle";
 
 export class LSystem
 {
