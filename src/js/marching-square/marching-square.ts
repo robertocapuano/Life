@@ -1,7 +1,7 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { classifyCells } from "./classify-cells";
-import { lerp } from "./lerp";
+import { lerp5 } from "./lerp";
 import { sample } from "./sample";
 import { threshold } from "./threshold";
 
@@ -393,10 +393,10 @@ export class MarchingSquare
         var SE = this._samples[i + 1][j + 1];
 
         // The offset from top or left that the line intersection should be.
-        var N = (cellType & 4) === (cellType & 8) ? 0.5 : lerp(NW, NE, 0, 1, this._threshold);
-        var E = (cellType & 2) === (cellType & 4) ? 0.5 : lerp(NE, SE, 0, 1, this._threshold);
-        var S = (cellType & 1) === (cellType & 2) ? 0.5 : lerp(SW, SE, 0, 1, this._threshold);
-        var W = (cellType & 1) === (cellType & 8) ? 0.5 : lerp(NW, SW, 0, 1, this._threshold);
+        var N = (cellType & 4) === (cellType & 8) ? 0.5 : lerp5(NW, NE, 0, 1, this._threshold);
+        var E = (cellType & 2) === (cellType & 4) ? 0.5 : lerp5(NE, SE, 0, 1, this._threshold);
+        var S = (cellType & 1) === (cellType & 2) ? 0.5 : lerp5(SW, SE, 0, 1, this._threshold);
+        var W = (cellType & 1) === (cellType & 8) ? 0.5 : lerp5(NW, SW, 0, 1, this._threshold);
 
         var compassCoords = {
           "N": [i, j + N],

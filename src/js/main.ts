@@ -31,7 +31,7 @@ import { PI_2, RAD } from "./math";
             ]),
         );
 
-        const word = lSys.applyProd('F',1);
+        const word = lSys.applyProd('F',3);
         const turtle = new Turtle( 
             10,
             VEC2(WIDTH * .5, HEIGHT ), 

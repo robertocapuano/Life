@@ -1,3 +1,4 @@
+import { lerp3, lerp5 } from "../marching-square/lerp";
 
 export class vec2
 {
@@ -92,6 +93,12 @@ export class vec2
         this.y = b.y;
 
         return this;
+    }
+
+    lerp( b: vec2, t: number ): vec2
+    {
+        const a = this;
+        return new vec2( lerp3( a.x, b.x, t), lerp3( a.y, b.y, t) );
     }
 
     clone(): vec2
