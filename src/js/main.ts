@@ -25,7 +25,6 @@ import { PI_2, RAD } from "./math";
     const pSys = new FxParticleSystem();
     pSys.setUp();
 
-    // Creatures.createSkeleton( pSys );
     {
         const lSys = new LSystem(new Map<string,string>([
             ['F','F[+F]F[-F]F'],
