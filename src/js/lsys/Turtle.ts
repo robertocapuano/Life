@@ -6,6 +6,7 @@ import { cos, sin } from "../math";
 export class Turtle
 {
     constructor(
+        public radius: number,
         public pos: vec2,
         public angle: number,
         public step: number,
@@ -18,7 +19,7 @@ export class Turtle
         this.pos.x += this.step * cos( this.angle );
         this.pos.y += this.step * sin( this.angle );
 
-        const u = pSys.addParticle( this.pos );
+        const u = pSys.addParticle( this.pos, this.radius );
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
     }
@@ -36,6 +37,7 @@ export class Turtle
     fork(): Turtle
     {
         return new Turtle( 
+            this.radius,
             this.pos.clone(), 
             this.angle, 
             this.step, 
