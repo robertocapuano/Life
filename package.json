@@ -6,7 +6,7 @@
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html --no-source-maps --public-url ./",
     "zip": "cd dist ; 7za a ../submission.zip * -mx9 -tzip; cd .. ",
-    "clean": "rm -f submission.zip; rm -rf dist",
+    "clean": "rm -f submission.zip; rm -rf dist; rm -rf submission",
     "pack": "npm run clean && npm run build &&npm run zip"
   },
   "author": "Roberto Capuano",
