@@ -1,4 +1,5 @@
 import { lerp3, lerp5 } from "../marching-square/lerp";
+import { abs } from "../math";
 
 export class vec2
 {
@@ -99,6 +100,18 @@ export class vec2
     {
         const a = this;
         return new vec2( lerp3( a.x, b.x, t), lerp3( a.y, b.y, t) );
+    }
+
+    normalize(): vec2 
+    {
+        return this.scale( 1 / this.mag() );
+    }
+
+    angle( b: vec2 ): number
+    {
+        const a = this;
+
+        return a.dot( b ) / ( a.mag() * b.mag() ); 
     }
 
     clone(): vec2

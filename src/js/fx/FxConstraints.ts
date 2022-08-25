@@ -1,6 +1,6 @@
-import { clamp } from "../math";
+import { clamp, cos, sin } from "../math";
 import { FxParticle, FxPos } from "./FxParticle";
-import { mag, sub, vec2 } from "./vec2";
+import { mag, sub, VEC2, vec2 } from "./vec2";
 
 export type FxConstraint = { 
     apply: ( p1: FxPos[] ) => void, 
@@ -32,6 +32,33 @@ export function FxLinkConstraint(
             p_v.addInPlace( delta );
         },
         has: ( p: FxParticle ) => ( p === u || p === v ),
+    };
+}
+
+
+export function FxAngle1PConstraint( 
+    u: FxParticle, 
+    pivot: vec2, 
+    axis_ref: vec2, 
+    angle: number,
+): FxConstraint
+ {
+    return {
+        apply: ( p: Array<vec2> ) => {
+
+            const up_diff = p[u].sub( pivot);
+            const up_dist = up_diff.mag();
+            const up_dir = up_diff.normalize();
+            
+            const rot_angle = up_dir.angle( axis_ref );
+
+            const new_angle = clamp( rot_angle, -angle, +angle );
+            const new_dir = axis_ref.add( VEC2( cos(new_angle), sin(new_angle) )) ;
+
+            const u_pos = pivot.add( new_dir.scale( up_dist ) );
+            p[u] = u_pos;
+        },
+        has: ( p: FxParticle ) => ( p === u ),
     };
 }
 
