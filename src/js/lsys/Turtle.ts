@@ -1,12 +1,14 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
 import { LOGI } from "../logs";
+import { INTRA_RADIUS } from "../MainConstants";
 import { cos, sin } from "../math";
 
 export class Turtle
 {
     constructor(
-        public radius: number,
+        public main_radius: number,
+        public secondary_radius: number,
         public pos: vec2,
         public angle: number,
         public step: number,
@@ -24,8 +26,8 @@ export class Turtle
         const next_pos = this.pos.add( dire.scale( this.step ) );
 
         {
-            const r = this.radius;
-            const r2 = r * .5;
+            const r = this.main_radius;
+            const r2 = this.secondary_radius;
             const inner_dist = this.step - 2 * r - 2 *r2;
             
             const start_pos = this.pos.add( dire.scale( r + r2 ) );
@@ -41,7 +43,7 @@ export class Turtle
         }
 
         this.pos = next_pos;
-        const u = pSys.addParticle( this.pos, this.radius );
+        const u = pSys.addParticle( this.pos, this.main_radius );
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
     }
@@ -59,7 +61,8 @@ export class Turtle
     fork(): Turtle
     {
         return new Turtle( 
-            this.radius,
+            this.main_radius,
+            this.secondary_radius,
             this.pos.clone(), 
             this.angle, 
             this.step, 

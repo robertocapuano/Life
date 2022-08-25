@@ -2,13 +2,12 @@ import { FxParticleSystem } from "./fx/FxParticleSystem";
 import { VEC2 } from "./fx/vec2";
 import { LSystem } from "./lsys/LSystem";
 import { Turtle } from "./lsys/Turtle";
-import { HEIGHT, WIDTH } from "./MainConstants";
+import { MAIN_RADIUS, FORWARD_STEP, HEIGHT, INTRA_RADIUS, WIDTH } from "./MainConstants";
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
 
-(() =>
-{
+(() => {
 
     const canvas = document.createElement("canvas");
     canvas.width = WIDTH;
@@ -30,10 +29,11 @@ import { RAD } from "./math";
 
         const word = lSys.applyProd('F',2);
         const turtle = new Turtle( 
-            10,
+            MAIN_RADIUS,
+            INTRA_RADIUS,
             VEC2(WIDTH * .5, HEIGHT ), 
             RAD(-90), 
-            60, 
+            FORWARD_STEP, 
             RAD(45),  
         );
         lSys.applyTurtle( turtle, word, pSys, );
