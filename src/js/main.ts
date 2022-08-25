@@ -1,14 +1,11 @@
 import { FxParticleSystem } from "./fx/FxParticleSystem";
-import { metaball } from "./marching-square/metaball";
-import { MarchingSquare } from "./marching-square/marching-square";
 import { VEC2 } from "./fx/vec2";
-import { FxConstantForce } from "./fx/FxForces";
-import { ONE_SEC } from "./fx/FxParticle";
-import { HEIGHT, WIDTH } from "./MainConstants";
-import * as Creatures from './creatures/creatures';
 import { LSystem } from "./lsys/LSystem";
 import { Turtle } from "./lsys/Turtle";
-import { PI_2, RAD } from "./math";
+import { HEIGHT, WIDTH } from "./MainConstants";
+import { MarchingSquare } from "./marching-square/marching-square";
+import { metaball } from "./marching-square/metaball";
+import { RAD } from "./math";
 
 (() =>
 {

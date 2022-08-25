@@ -16,18 +16,28 @@ export class Turtle
 
     forward( pSys: FxParticleSystem )
     {
-        const r = this.radius;
-        const r2 = r * .5;
-        const l = Math.floor( (this.step - 2*r) / r2 );
-        const next_pos = VEC2(
-            this.pos.x + this.step * cos( this.angle ),
-            this.pos.y + this.step * sin( this.angle ),
+        const dire = VEC2( 
+            cos( this.angle ),
+            sin( this.angle ),
         );
 
-        for ( let i=1; i<l-1; ++i )
+        const next_pos = this.pos.add( dire.scale( this.step ) );
+
         {
-            const p = this.pos.lerp( next_pos, i / (l-1) );
-            const v = pSys.addParticle( p, r2 );
+            const r = this.radius;
+            const r2 = r * .5;
+            const inner_dist = this.step - 2 * r - 2 *r2;
+            
+            const start_pos = this.pos.add( dire.scale( r + r2 ) );
+            const end_pos = start_pos.add( dire.scale( inner_dist )) ;
+            
+            const l = Math.floor( inner_dist / (2*r2) );
+
+            for ( let i=0; i<l; ++i )
+            {
+                const p = start_pos.lerp( end_pos, i / (l-1) );
+                const v = pSys.addParticle( p, r2 );
+            }
         }
 
         this.pos = next_pos;
