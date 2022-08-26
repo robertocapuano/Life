@@ -8,7 +8,7 @@ import { MAIN_RADIUS, FORWARD_STEP, HEIGHT, INTRA_RADIUS, WIDTH } from "./MainCo
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
-import { RND0N } from "./random";
+import { randomDir, RND0N } from "./random";
 
 (() => {
 
@@ -47,7 +47,7 @@ import { RND0N } from "./random";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, VEC2( 1 * ONE_SEC ) ) ); 
+            pSys.addTmpForce( FxConstantForce( u, randomDir().scale( 1 * ONE_SEC) ) );
 
         };
 

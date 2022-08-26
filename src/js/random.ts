@@ -1,3 +1,4 @@
+import { vec2, VEC2 } from "./fx/vec2";
 
 export const RND01 = Math.random;
 export const RND0N = getRandomInt;
@@ -26,3 +27,7 @@ export function getRandomRange(min: number, max: number ) {
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
   }
   
+export function randomDir(): vec2
+{
+    return VEC2( randomNumber(-1,+1), randomNumber(-1,+1) ).normalize();
+}

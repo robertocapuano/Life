@@ -68,25 +68,26 @@ export class FxParticleSystem
 
     update()
     {
+        this.v.forEach( vi => vi.zero() );
 
         for (let j=0; j<FX_ITERATIONS; ++j)
         {
-            this.v.forEach( vi => vi.assign( 0, 0,  ) );
-            this.a.forEach( ai => ai.assign( 0, 0, ) );
-
             this.n2Collision();
 
-            this.accumulateForces( this.ft );
+            this.a.forEach( ai => ai.zero() );
+
             this.accumulateForces( this.fp );
+            this.accumulateForces( this.ft );
     
             this.verletInt();
     
             this.satisfyConstraints( this.ct );
             this.satisfyConstraints( this.cp );
+
+            this.ft.length = 0;
+            this.ct.length = 0;
         }
         
-        this.ft.length = 0;
-        this.ct.length = 0;
     }
 
 
@@ -146,7 +147,9 @@ export class FxParticleSystem
 
     private satisfyConstraints( c: FxConstraints )
     {
-        for ( let j=0; j<FX_ITERATIONS; j++)
+        const NUM_ITERATIONS = 4;
+
+        for ( let j=0; j<NUM_ITERATIONS; j++)
         {
             c.forEach( ci => ci.apply( this.p1 ) );
         }

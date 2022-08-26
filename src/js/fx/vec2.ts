@@ -82,10 +82,12 @@ export class vec2
         this.y = y;
     }
 
-    zero()
+    zero(): vec2
     {
         this.x = 0;
         this.y = 0;
+
+        return this;
     }
 
     copyFrom( b: vec2 ): vec2
