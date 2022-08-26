@@ -63,7 +63,7 @@ export class Turtle
         }
         else
         {
-            // pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]), 30, 90 ) );
+            pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]), 0, 10 ) );
         }
 
         for ( let i=1; i<particles.length; ++i ) {

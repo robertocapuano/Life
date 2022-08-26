@@ -38,7 +38,7 @@ export function FxLinkConstraint(
 export function FxDistanceConstraint( 
     u: number, 
     pivot_pos: vec2, 
-    min_dist: number, 
+    min_dist: number = 0, 
     max_dist: number = min_dist,
 ): FxConstraint {
     return {
