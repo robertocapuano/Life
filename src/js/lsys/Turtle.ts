@@ -1,8 +1,10 @@
+import { FxAngle1PConstraint, FxAngle2PConstraint } from "../fx/FxConstraints";
+import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
 import { LOGI } from "../logs";
 import { INTRA_RADIUS } from "../MainConstants";
-import { cos, sin } from "../math";
+import { cos, RAD, sin } from "../math";
 
 export class Turtle
 {
@@ -16,8 +18,11 @@ export class Turtle
         public last_part: number = -1,
     ) {}
 
-    forward( pSys: FxParticleSystem )
+    forward( pSys: FxParticleSystem ): Array<FxParticle>
     {
+        const particles = new Array<FxParticle>();
+        const prev_pos = this.pos;
+
         const dire = VEC2( 
             cos( this.angle ),
             sin( this.angle ),
@@ -39,13 +44,24 @@ export class Turtle
             {
                 const p = start_pos.lerp( end_pos, i / (l-1) );
                 const v = pSys.addParticle( p, r2 );
+                particles.push(v);
             }
         }
 
         this.pos = next_pos;
         const u = pSys.addParticle( this.pos, this.main_radius );
+        particles.push(u);
+
+        const axis_constraint = (this.last_part<0)
+            ? FxAngle1PConstraint( u, prev_pos, dire, RAD(30) )
+            : FxAngle2PConstraint( u, this.last_part, dire, RAD(30) );
+
+        pSys.addConstraint( axis_constraint );
+
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
+
+        return particles;
     }
 
     right()

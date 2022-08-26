@@ -1,7 +1,4 @@
-export const { cos } = Math;
-export const { sin } = Math;
-export const { abs } = Math;
-export const { sqrt } = Math;
+export const { cos, sin, abs, sqrt, acos } = Math;
 
 export const { PI } = Math;
 export const TWOPI = 2 * PI;

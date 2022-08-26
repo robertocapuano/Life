@@ -1,5 +1,5 @@
 import { lerp3, lerp5 } from "../marching-square/lerp";
-import { abs } from "../math";
+import { abs, acos } from "../math";
 
 export class vec2
 {
@@ -111,7 +111,7 @@ export class vec2
     {
         const a = this;
 
-        return a.dot( b ) / ( a.mag() * b.mag() ); 
+        return acos( a.dot( b ) / ( a.mag() * b.mag() ) );
     }
 
     clone(): vec2

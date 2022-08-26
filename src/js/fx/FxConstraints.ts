@@ -52,7 +52,10 @@ export function FxAngle1PConstraint(
             const rot_angle = up_dir.angle( axis_ref );
 
             const new_angle = clamp( rot_angle, -angle, +angle );
-            const new_dir = axis_ref.add( VEC2( cos(new_angle), sin(new_angle) )) ;
+            const new_dir = VEC2(
+                axis_ref.x * cos( new_angle) - axis_ref.y * sin(new_angle),
+                axis_ref.x * sin( new_angle) + axis_ref.y * cos(new_angle),
+            );
 
             const u_pos = pivot.add( new_dir.scale( up_dist ) );
             p[u] = u_pos;
@@ -71,16 +74,19 @@ export function FxAngle2PConstraint(
     return {
         apply: ( p: Array<vec2> ) => {
 
-            const up_diff = p[u].sub( p[v] );
-            const up_dist = up_diff.mag();
-            const up_dir = up_diff.normalize();
+            const uv_diff = p[u].sub( p[v] );
+            const uv_dist = uv_diff.mag();
+            const uv_dir = uv_diff.normalize();
             
-            const rot_angle = up_dir.angle( axis_ref );
+            const rot_angle = uv_dir.angle( axis_ref );
 
             const new_angle = clamp( rot_angle, -angle, +angle );
-            const new_dir = axis_ref.add( VEC2( cos(new_angle), sin(new_angle) )) ;
+            const new_dir = VEC2(
+                axis_ref.x * cos(new_angle) - axis_ref.y * sin(new_angle),
+                axis_ref.x * sin(new_angle) + axis_ref.y * cos(new_angle),
+            );
 
-            const u_pos = p[u].add( new_dir.scale( up_dist ) );
+            const u_pos = p[v].add( new_dir.scale( uv_dist ) );
             p[u] = u_pos;
         },
         has: ( p: FxParticle ) => ( p === u ),

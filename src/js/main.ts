@@ -27,7 +27,7 @@ import { RAD } from "./math";
             ]),
         );
 
-        const word = lSys.applyProd('F',2);
+        const word = lSys.applyProd('FF',1);
         const turtle = new Turtle( 
             MAIN_RADIUS,
             INTRA_RADIUS,
