@@ -133,7 +133,8 @@ export class FxParticleSystem
 
             v_i.copyFrom( a_i.scale( FX_TIMESTEP_SQR ) );
             v_i.addInPlace( p1_i.sub(p0_i).scaleInPlace(D) );
-            p2_i.copyFrom( p1_i.add( v_i ) );
+            const pos_i = p1_i.add( v_i );
+            p2_i.copyFrom( pos_i );
         }
         
         // swap

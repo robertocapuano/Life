@@ -30,7 +30,7 @@ import { randomDir, RND0N } from "./random";
             ]),
         );
 
-        const word = lSys.applyProd('F',1);
+        const word = lSys.applyProd('F',2);
         const turtle = new Turtle( 
             MAIN_RADIUS,
             INTRA_RADIUS,

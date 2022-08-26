@@ -59,25 +59,25 @@ export class Turtle
         if ( this.last_part>=0)
         {
             const L = pSys.getPos( this.last_part ).sub( pSys.getPos( particles[0] )).mag();
-            pSys.addConstraint( FxLinkConstraint( this.last_part, particles[0], L, 1 * L ));
+            pSys.addConstraint( FxLinkConstraint( this.last_part, particles[0], L, 1.1 * L ));
         }
-        // else
-        // {
-        //     pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]), 60 ) );
-        // }
+        else
+        {
+            // pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]), 30, 90 ) );
+        }
 
         for ( let i=1; i<particles.length; ++i ) {
             const L = pSys.getPos( particles[i] ).sub( pSys.getPos(particles[i-1])).mag();
             pSys.addConstraint( FxLinkConstraint( particles[i], particles[i-1], L, 1.1 * L ));
         }
       
-        // {
-        //     const axis_constraint = (this.last_part<0)
-        //         ? FxAngle1PConstraint( u, prev_pos, dire, RAD(10) )
-        //         : FxAngle2PConstraint( u, this.last_part, dire, RAD(10) );
+        {
+            const axis_constraint = (this.last_part<0)
+                ? FxAngle1PConstraint( u, prev_pos, dire, RAD(10) )
+                : FxAngle2PConstraint( u, this.last_part, dire, RAD(10) );
 
-        //     pSys.addConstraint( axis_constraint );
-        // }
+            pSys.addConstraint( axis_constraint );
+        }
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);

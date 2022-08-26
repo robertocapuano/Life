@@ -125,6 +125,16 @@ export class vec2
     {
         return `[${this.x},${this.y}]`;
     }
+
+    isNaN(): boolean
+    {
+        return isNaN(this.x) || isNaN(this.y);
+    }
+
+    isInfinity(): boolean
+    {
+        return !isFinite(this.x) || !isFinite(this.y);
+    }
 }
 
 

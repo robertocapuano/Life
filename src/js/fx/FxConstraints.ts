@@ -12,7 +12,7 @@ export function FxLinkConstraint(
     u: FxParticle, 
     v: FxParticle, 
     min_length: number, 
-    max_length: number=min_length,
+    max_length: number = min_length,
 ): FxConstraint
 {
     return {
@@ -52,8 +52,10 @@ export function FxDistanceConstraint(
 
             const dire = diff.normalize();
             const new_dist = clamp( dist, min_dist, max_dist );
-            
-            p[u] = pivot_pos.add( dire.scaleInPlace( new_dist ) );
+
+            const u_pos =pivot_pos.add( dire.scaleInPlace( new_dist ) );
+            p[u] = u_pos;
+
         },
         has: ( p: FxParticle ) => ( p === u ),
     };
@@ -116,5 +118,3 @@ export function FxAngle2PConstraint(
         has: ( p: FxParticle ) => ( p === u ),
     };
 }
-
-
