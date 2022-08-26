@@ -21,7 +21,7 @@ export class Turtle
     forward( pSys: FxParticleSystem ): Array<FxParticle>
     {
         const particles = new Array<FxParticle>();
-        const prev_pos = this.pos;
+        const prev_pos = this.pos.clone();
 
         const dire = VEC2( 
             cos( this.angle ),
@@ -63,7 +63,7 @@ export class Turtle
         }
         else
         {
-            pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]), 0, 10 ) );
+            pSys.addConstraint( FxDistanceConstraint( particles[0], pSys.getPos( particles[0]).clone(), 0, 10 ) );
         }
 
         for ( let i=1; i<particles.length; ++i ) {
@@ -71,13 +71,13 @@ export class Turtle
             pSys.addConstraint( FxLinkConstraint( particles[i], particles[i-1], L, 1.1 * L ));
         }
       
-        {
-            const axis_constraint = (this.last_part<0)
-                ? FxAngle1PConstraint( u, prev_pos, dire, RAD(10) )
-                : FxAngle2PConstraint( u, this.last_part, dire, RAD(10) );
+        // {
+        //     const axis_constraint = (this.last_part<0)
+        //         ? FxAngle1PConstraint( u, prev_pos, dire, RAD(10) )
+        //         : FxAngle2PConstraint( u, this.last_part, dire, RAD(10) );
 
-            pSys.addConstraint( axis_constraint );
-        }
+        //     pSys.addConstraint( axis_constraint );
+        // }
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
