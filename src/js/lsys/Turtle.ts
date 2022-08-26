@@ -1,4 +1,4 @@
-import { FxAngle1PConstraint, FxAngle2PConstraint } from "../fx/FxConstraints";
+import { FxAngle1PConstraint, FxAngle2PConstraint, FxLinkConstraint } from "../fx/FxConstraints";
 import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
@@ -40,10 +40,24 @@ export class Turtle
             
             const l = Math.floor( inner_dist / (2*r2) );
 
+            let prev_chain = this.last_part;
+
             for ( let i=0; i<l; ++i )
             {
                 const p = start_pos.lerp( end_pos, i / (l-1) );
                 const v = pSys.addParticle( p, r2 );
+
+                if ( prev_chain<0)
+                {
+
+                }
+                else
+                {
+                    const L =  pSys.getRadius(prev_chain)  +  r2; 
+                    pSys.addConstraint( FxLinkConstraint( prev_chain, v, L, 2 *L ));
+                }
+
+                prev_chain = v;
                 particles.push(v);
             }
         }
