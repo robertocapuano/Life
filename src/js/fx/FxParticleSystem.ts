@@ -60,17 +60,19 @@ export class FxParticleSystem
         this.ft.length = 0;
     }
 
-    private clean()
-    {
-        this.v.forEach( vi => vi.assign( 0, 0,  ) );
-        this.a.forEach( ai => ai.assign( 0, 0, ) );
-    }
+    // private clean()
+    // {
+    //     this.v.forEach( vi => vi.assign( 0, 0,  ) );
+    //     this.a.forEach( ai => ai.assign( 0, 0, ) );
+    // }
 
     update()
     {
+
         for (let j=0; j<FX_ITERATIONS; ++j)
         {
-            this.clean();
+            this.v.forEach( vi => vi.assign( 0, 0,  ) );
+            this.a.forEach( ai => ai.assign( 0, 0, ) );
 
             this.n2Collision();
 
@@ -94,21 +96,21 @@ export class FxParticleSystem
     
         for ( let u=0, l=p_count-1; u<l; ++u )
             for ( let v=u+1; v<p_count; ++v )
-        {
-            const p_u = this.p1[u];
-            const p_v = this.p1[v];
-            
-            const delta = p_u.sub( p_v );
-            const delta_lenght = delta.mag();
-            
-            const LINK_DISTANCE = this.r[u] + this.r[v];
-            
-            if (delta_lenght<LINK_DISTANCE)
             {
-                this.addTmpForce( FxCollisionForce( u, v, LINK_DISTANCE ) );
+                const p_u = this.p1[u];
+                const p_v = this.p1[v];
+                
+                const delta = p_u.sub( p_v );
+                const delta_length = delta.mag();
+                
+                const LINK_DISTANCE = this.r[u] + this.r[v];
+                
+                if (delta_length<LINK_DISTANCE)
+                {
+                    this.addTmpForce( FxCollisionForce( u, v, LINK_DISTANCE ) );
+                }
+                
             }
-            
-        }
     
     }
 
@@ -128,7 +130,7 @@ export class FxParticleSystem
             if (p2_i===null)
                 continue;
 
-            v_i.copyFrom( a_i ).scaleInPlace( FX_TIMESTEP_SQR );
+            v_i.copyFrom( a_i.scale( FX_TIMESTEP_SQR ) );
             v_i.addInPlace( p1_i.sub(p0_i).scaleInPlace(D) );
             p2_i.copyFrom( p1_i.add( v_i ) );
         }

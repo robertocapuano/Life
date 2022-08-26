@@ -35,22 +35,25 @@ export function FxLinkConstraint(
     };
 }
 
-export function DistanceConstraint( 
+export function FxDistanceConstraint( 
     u: number, 
     pivot_pos: vec2, 
     min_dist: number, 
-    max_dist: number=min_dist 
+    max_dist: number = min_dist,
 ): FxConstraint {
     return {
             apply: ( p: Array<vec2> ) => {
 
             const p_u = p[u];
             const diff = sub( p_u, pivot_pos );
+            const dist = diff.mag();
+            if (dist<Number.EPSILON)
+                return;
+
             const dire = diff.normalize();
-            const dist = mag( diff );
             const new_dist = clamp( dist, min_dist, max_dist );
             
-            p[u] =  pivot_pos.add( dire.scaleInPlace( new_dist ) );
+            p[u] = pivot_pos.add( dire.scaleInPlace( new_dist ) );
         },
         has: ( p: FxParticle ) => ( p === u ),
     };

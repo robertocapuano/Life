@@ -1,3 +1,5 @@
+import { FxConstantForce } from "./fx/FxForces";
+import { ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
 import { VEC2 } from "./fx/vec2";
 import { LSystem } from "./lsys/LSystem";
@@ -6,6 +8,7 @@ import { MAIN_RADIUS, FORWARD_STEP, HEIGHT, INTRA_RADIUS, WIDTH } from "./MainCo
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
+import { RND0N } from "./random";
 
 (() => {
 
@@ -27,7 +30,7 @@ import { RAD } from "./math";
             ]),
         );
 
-        const word = lSys.applyProd('FF',2);
+        const word = lSys.applyProd('F',1);
         const turtle = new Turtle( 
             MAIN_RADIUS,
             INTRA_RADIUS,
@@ -37,6 +40,19 @@ import { RAD } from "./math";
             RAD(45),  
         );
         lSys.applyTurtle( turtle, word, pSys, );
+
+
+        const noise_fn = () => {
+            const n = pSys.count();
+
+            const u = RND0N(n);
+
+            pSys.addTmpForce( FxConstantForce( u, VEC2( 1 * ONE_SEC ) ) ); 
+
+        };
+
+        setInterval( noise_fn, 1000 );
+
     }
 
     {

@@ -1,4 +1,4 @@
-import { FxAngle1PConstraint, FxAngle2PConstraint, FxLinkConstraint } from "../fx/FxConstraints";
+import { FxAngle1PConstraint, FxAngle2PConstraint, FxDistanceConstraint, FxLinkConstraint } from "../fx/FxConstraints";
 import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
@@ -30,6 +30,8 @@ export class Turtle
 
         const next_pos = this.pos.add( dire.scale( this.step ) );
 
+        // let prev_chain = this.last_part;
+
         {
             const r = this.main_radius;
             const r2 = this.secondary_radius;
@@ -40,25 +42,23 @@ export class Turtle
             
             const l = Math.floor( inner_dist / (2*r2) );
 
-            let prev_chain = this.last_part;
-
             for ( let i=0; i<l; ++i )
             {
-                const p = start_pos.lerp( end_pos, i / (l-1) );
-                const v = pSys.addParticle( p, r2 );
-
-                if ( prev_chain<0)
-                {
-
-                }
-                else
-                {
-                    const L =  pSys.getRadius(prev_chain)  +  r2; 
-                    pSys.addConstraint( FxLinkConstraint( prev_chain, v, L, 2 *L ));
-                }
-
-                prev_chain = v;
+                const pos = start_pos.lerp( end_pos, i / (l-1) );
+                const v = pSys.addParticle( pos, r2 );
                 particles.push(v);
+
+                // if ( prev_chain < 0 )
+                // {
+                //     pSys.addConstraint( FxDistanceConstraint( v, pos, r2 ) );
+                // }
+                // else
+                // {
+                //     const L = pSys.getPos(prev_chain).sub( pos ).mag();
+                //     pSys.addConstraint( FxLinkConstraint( prev_chain, v, L, L ));
+                // }
+
+                // prev_chain = v;
             }
         }
 
@@ -66,11 +66,40 @@ export class Turtle
         const u = pSys.addParticle( this.pos, this.main_radius );
         particles.push(u);
 
-        const axis_constraint = (this.last_part<0)
-            ? FxAngle1PConstraint( u, prev_pos, dire, RAD(30) )
-            : FxAngle2PConstraint( u, this.last_part, dire, RAD(30) );
+        if ( this.last_part>=0)
+        {
+            const L = pSys.getPos( this.last_part ).sub( pSys.getPos( particles[0] )).mag();
+            pSys.addConstraint( FxLinkConstraint( this.last_part, particles[0], L, 1.1 * L ));
 
-        pSys.addConstraint( axis_constraint );
+        }
+
+        for ( let i=1; i<particles.length; ++i ) {
+            const L = pSys.getPos( particles[i] ).sub( pSys.getPos(particles[i-1])).mag();
+            pSys.addConstraint( FxLinkConstraint( particles[i], particles[i-1], L, L ));
+        }
+      
+
+        // if ( this.last_part >= 0 )
+        // {
+        //     const L = pSys.getPos(prev_chain).sub( pos ).mag();
+        //     pSys.addConstraint( FxLinkConstraint( prev_chain, v, L, L ));
+        // }
+
+
+        if (false)
+        {
+            const axis_constraint = (this.last_part<0)
+                ? FxAngle1PConstraint( u, prev_pos, dire, RAD(30) )
+                : FxAngle2PConstraint( u, this.last_part, dire, RAD(30) );
+
+            pSys.addConstraint( axis_constraint );
+        }
+
+        // {
+        //     const L =  pSys.getRadius(prev_chain)  +  this.main_radius; 
+        //     pSys.addConstraint( FxLinkConstraint( prev_chain, u, L, 1.1*L ));
+        // }
+
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);

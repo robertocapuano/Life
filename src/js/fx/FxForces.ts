@@ -28,12 +28,10 @@ export function FxCollisionForce(
         apply: ( p1: FxPos[], p0: FxPos[], a: Array<vec2> ) => {
             const p_u = p1[u];
             const p_v = p1[v];
-            
+
             const delta = p_u.sub( p_v );
-            
-            const delta_lenght = delta.mag();
-            
-            const diff = (delta_lenght-link_length)/delta_lenght;
+            const delta_length = delta.mag();
+            const diff = (delta_length-link_length) / delta_length;
             
             const p_u1 = p_u.sub( delta.scale( .5 * diff ) );
             const p_v1 = p_v.add( delta.scale( .5 * diff ) );

@@ -1,15 +1,15 @@
-import { lerp3, lerp5 } from "../marching-square/lerp";
-import { abs, acos } from "../math";
+import { lerp3 } from "../marching-square/lerp";
+import { acos } from "../math";
 
 export class vec2
 {
-    static VEC2( x: number, y: number ) {
+    static VEC2( x: number, y: number = x ) {
         return new vec2( x, y );
     }
 
     constructor( 
         public x: number, 
-        public y: number,
+        public y: number = x,
     ) {}
 
     add( b: vec2 ): vec2
