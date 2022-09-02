@@ -2,6 +2,7 @@ import { FxConstantForce } from "./fx/FxForces";
 import { ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
 import { VEC2 } from "./fx/vec2";
+import { LOGI } from "./logs";
 import { LSystem } from "./lsys/LSystem";
 import { Turtle } from "./lsys/Turtle";
 import { MAIN_RADIUS, FORWARD_STEP, HEIGHT, INTRA_RADIUS, WIDTH } from "./MainConstants";
@@ -9,6 +10,7 @@ import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
 import { randomDir, RND0N } from "./random";
+import { initUi, UserSlash } from "./ui";
 
 (() => {
 
@@ -16,10 +18,14 @@ import { randomDir, RND0N } from "./random";
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
     document.body.appendChild(canvas);
-
+    
     const ctx = canvas.getContext('2d');
     if (!ctx)
         return;
+
+    const slashUi = new UserSlash( canvas, (x: number, y: number ) =>{
+        LOGI(`[${x},${y}]`);
+    });
 
     const pSys = new FxParticleSystem();
     pSys.setUp();
