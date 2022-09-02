@@ -1,15 +1,15 @@
 import { lerp3 } from "../marching-square/lerp";
-import { acos } from "../math";
+import { acos, clamp } from "../math";
 
 export class vec2
 {
-    static VEC2( x: number, y: number = x ) {
+    static VEC2( x: number, y: number ) {
         return new vec2( x, y );
     }
 
     constructor( 
         public x: number, 
-        public y: number = x,
+        public y: number,
     ) {}
 
     add( b: vec2 ): vec2
@@ -112,8 +112,10 @@ export class vec2
     angle( b: vec2 ): number
     {
         const a = this;
-
-        return acos( a.dot( b ) / ( a.mag() * b.mag() ) );
+        
+        const beta = a.dot( b ) / ( a.mag() * b.mag() );
+        const alpha = clamp( beta, -1, 1 );
+        return acos( alpha );
     }
 
     clone(): vec2

@@ -8,7 +8,7 @@ import { threshold } from "./threshold";
 const CIRCLE_CLR = 'white';
 const SHADOW_CLR = '#91866e';
 const LIGHT_CLR = 'white';
-const LIFE_CLR = 'black';
+const LIFE_CLR = 'white';
 
 export interface Options
 {
