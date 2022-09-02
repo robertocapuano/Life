@@ -25,6 +25,8 @@ import { initUi, UserSlash } from "./ui";
 
     const slashUi = new UserSlash( canvas, (x: number, y: number ) =>{
         LOGI(`[${x},${y}]`);
+        const p = pSys.getParticleAt( VEC2( x, y ) );
+        LOGI(`p: ${p}`);
     });
 
     const pSys = new FxParticleSystem();

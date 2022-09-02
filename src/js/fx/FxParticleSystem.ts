@@ -261,4 +261,25 @@ export class FxParticleSystem
     //     this.removeParticle( r[0], l );
     // }
 
+    getParticleAt( pos: vec2 )
+    {
+        const l = this.count();
+
+        for ( let i = 0; i<l; ++i )
+        {
+            const p_pos = this.p1[i];
+
+            if (!p_pos)
+                continue;
+
+            const diff = p_pos.sub( pos );
+            const dist = diff.mag();
+            const r = this.r[i];
+
+            if (dist<r)
+                return i;
+        }
+
+        return null;
+    }
 }
