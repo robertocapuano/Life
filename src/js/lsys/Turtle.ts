@@ -5,8 +5,6 @@ import { VEC2, vec2 } from "../fx/vec2";
 import { LOGI } from "../logs";
 import { cos, RAD, sin } from "../math";
 
-let counterx =0;
-
 export class Turtle
 {
     constructor(
@@ -81,9 +79,7 @@ export class Turtle
 
         for ( let i=1; i<particles.length; ++i )
         {
-            const axis_constraint = //(this.last_part<0)
-                // ? FxAngle1PConstraint( u, prev_pos, dire, RAD(10) )
-                FxAngle2PConstraint( particles[i], particles[i-1], dire, RAD(30) );
+            const axis_constraint = FxAngle2PConstraint( particles[i], particles[i-1], dire, RAD(30) );
 
             pSys.addConstraint( axis_constraint );
         }
