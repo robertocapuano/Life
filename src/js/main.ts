@@ -47,7 +47,7 @@ import { randomDir, RND0N } from "./random";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, randomDir().scale( 4 * ONE_SEC) ) );
+            pSys.addTmpForce( FxConstantForce( u, randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 

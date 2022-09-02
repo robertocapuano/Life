@@ -3,6 +3,7 @@ import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2 } from "../fx/vec2";
 import { LOGI } from "../logs";
+import { AXIS_ANGLE } from "../MainConstants";
 import { cos, RAD, sin } from "../math";
 
 export class Turtle
@@ -71,15 +72,15 @@ export class Turtle
       
         {
             const axis_constraint = (this.last_part<0)
-                    ? FxAngle1PConstraint( particles[0], prev_pos, dire, RAD(30) )
-                    : FxAngle2PConstraint( particles[0], this.last_part, dire, RAD(30) );
+                    ? FxAngle1PConstraint( particles[0], prev_pos, dire, AXIS_ANGLE )
+                    : FxAngle2PConstraint( particles[0], this.last_part, dire, AXIS_ANGLE );
 
             pSys.addConstraint( axis_constraint );
         }
 
         for ( let i=1; i<particles.length; ++i )
         {
-            const axis_constraint = FxAngle2PConstraint( particles[i], particles[i-1], dire, RAD(30) );
+            const axis_constraint = FxAngle2PConstraint( particles[i], particles[i-1], dire, AXIS_ANGLE );
 
             pSys.addConstraint( axis_constraint );
         }
