@@ -103,7 +103,7 @@ export class Turtle
             pSys.addConstraint( axis_constraint );
         }
 
-        pSys.addForce( FxConstantForce( u, VEC2(0,1 * RND01() ) ) );
+       // pSys.addForce( FxConstantForce( u, VEC2(0,1 * RND01() ) ) );
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
