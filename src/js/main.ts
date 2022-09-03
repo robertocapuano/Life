@@ -1,7 +1,7 @@
 import { FxConstantForce } from "./fx/FxForces";
-import { ONE_SEC } from "./fx/FxParticle";
+import { FxParticle, ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
-import { VEC2 } from "./fx/vec2";
+import { vec2, VEC2 } from "./fx/vec2";
 import { LOGI } from "./logs";
 import { LSystem } from "./lsys/LSystem";
 import { Turtle } from "./lsys/Turtle";
@@ -9,8 +9,8 @@ import { MAIN_RADIUS, FORWARD_STEP, HEIGHT, INTRA_RADIUS, WIDTH } from "./MainCo
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
-import { randomDir, RND0N } from "./random";
-import { initUi, UserSlash } from "./ui";
+import { randomDir, RND0N, RND11 } from "./random";
+import { UserSlash } from "./user-slash";
 
 (() => {
 
@@ -23,10 +23,20 @@ import { initUi, UserSlash } from "./ui";
     if (!ctx)
         return;
 
-    const slashUi = new UserSlash( canvas, (x: number, y: number ) =>{
-        LOGI(`[${x},${y}]`);
-        const p = pSys.getParticleAt( VEC2( x, y ) );
-        LOGI(`p: ${p}`);
+    const slashUi = new UserSlash( canvas, ( points: Array<vec2> )=>{
+        LOGI(`points [${points}]`);
+        const ps = new Set<FxParticle>();
+
+        points.forEach( pnt => {
+            const p = pSys.getParticleAt( pnt );
+            if (!!p)
+                ps.add( p );
+        });
+        LOGI(`ps: ${ps}`);
+
+        ps.forEach( p => pSys.removeConstraints( p ) );
+
+        ps.forEach( p => pSys.addForce( FxConstantForce( p, VEC2( 0, +10 ) ) ) );
     });
 
     const pSys = new FxParticleSystem();
@@ -55,7 +65,7 @@ import { initUi, UserSlash } from "./ui";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, randomDir().scale( 2 * ONE_SEC) ) );
+            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 10 , 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 

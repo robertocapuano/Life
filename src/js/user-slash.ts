@@ -1,3 +1,4 @@
+import { VEC2, vec2 } from "./fx/vec2";
 
 export class UserSlash
 {
@@ -10,10 +11,11 @@ export class UserSlash
     private y = 2;
     
     private flag = false;
-    
+    private particles = new Array<vec2>();
+
     constructor(
         public canvas: HTMLCanvasElement,  
-        private callback: ( currX: number, currY: number ) => void,
+        private callback: ( particles: Array<vec2> ) => void,
     ) {
         // let ctx: CanvasRenderingContext2D  = null
     
@@ -44,6 +46,9 @@ export class UserSlash
             this.currY = e.clientY - this.canvas.offsetTop;
 
             this.flag = true;
+            this.particles.length = 0;
+            this.particles.push( VEC2( this.currX, this.currY) );
+
             // dot_flag = true;
             // if (dot_flag) 
 
@@ -60,7 +65,7 @@ export class UserSlash
         {
 
             if (this.flag)
-                this.callback(this.currX,this.currY );
+                this.callback(this.particles );
 
             this.flag = false;
         }
@@ -74,7 +79,9 @@ export class UserSlash
                 this.prevY = this.currY;
                 this.currX = e.clientX - this.canvas.offsetLeft;
                 this.currY = e.clientY - this.canvas.offsetTop;
-                this.draw(this.canvas);
+                this.particles.push( VEC2( this.currX, this.currY) );
+
+                // this.draw(this.canvas);
             }
         }
     }

@@ -68,7 +68,7 @@ export class FxParticleSystem
 
     update()
     {
-        this.v.forEach( vi => vi.zero() );
+        this.v.forEach( vi => { if (!!vi) vi.zero(); } );
 
         for (let j=0; j<FX_ITERATIONS; ++j)
         {
@@ -173,6 +173,12 @@ export class FxParticleSystem
         return pi;
     }
 
+    removeConstraints( p: FxParticle )
+    {
+        this.fp = this.fp.filter( fi => !fi.has(p) );
+        this.cp = this.cp.filter( ci => !ci.has(p) );
+    }
+    
     removeParticle( p: FxParticle )
     {
         this.fp = this.fp.filter( fi => !fi.has(p) );

@@ -1,10 +1,12 @@
 import { FxAngle1PConstraint, FxAngle2PConstraint, FxDistancePointConstraint, FxLinkConstraint } from "../fx/FxConstraints";
+import { FxConstantForce } from "../fx/FxForces";
 import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2 } from "../fx/vec2";
 import { LOGI } from "../logs";
 import { AXIS_ANGLE } from "../MainConstants";
 import { cos, RAD, sin } from "../math";
+import { RND01 } from "../random";
 
 export class Turtle
 {
@@ -100,6 +102,8 @@ export class Turtle
 
             pSys.addConstraint( axis_constraint );
         }
+
+        pSys.addForce( FxConstantForce( u, VEC2(0,1 * RND01() ) ) );
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
