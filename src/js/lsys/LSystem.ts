@@ -37,6 +37,8 @@ export class LSystem
                 pSys: FxParticleSystem,  
     ) {
         const stack = new Array<Turtle>();
+        
+        // turtle.root(pSys);
 
         for ( const c of word )
         {
