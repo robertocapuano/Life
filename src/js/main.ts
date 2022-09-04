@@ -65,7 +65,7 @@ import { UserSlash } from "./user-slash";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 10 , 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 10 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 
