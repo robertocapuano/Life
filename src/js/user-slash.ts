@@ -1,4 +1,7 @@
+import { FxParticle } from "./fx/FxParticle";
 import { VEC2, vec2 } from "./fx/vec2";
+
+const SPLIT_DIST = 50;
 
 export class UserSlash
 {
@@ -13,9 +16,13 @@ export class UserSlash
     private flag = false;
     private particles = new Array<vec2>();
 
+    private dragging: FxParticle = null;
+
     constructor(
         public canvas: HTMLCanvasElement,  
         private callback: ( particles: Array<vec2> ) => void,
+        private drag: ( p: FxParticle, pos: vec2 ) => void,
+        private split: ( p: FxParticle ) => void,
     ) {
         // let ctx: CanvasRenderingContext2D  = null
     

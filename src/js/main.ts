@@ -37,7 +37,14 @@ import { UserSlash } from "./user-slash";
         ps.forEach( p => pSys.removeConstraints( p ) );
 
         ps.forEach( p => pSys.addForce( FxConstantForce( p, VEC2( 0, +10 ) ) ) );
-    });
+    },
+    ( p: FxParticle, pos: vec2 ) => {
+        // drag
+    },
+    ( p: FxParticle ) => {
+        // split
+    },
+    );
 
     const pSys = new FxParticleSystem();
     pSys.setUp();
@@ -65,7 +72,7 @@ import { UserSlash } from "./user-slash";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 10 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 1 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 

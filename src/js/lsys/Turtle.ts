@@ -108,9 +108,9 @@ export class Turtle
        {
            for ( let p of particles )
            {
-               const rp = pSys.getRadius( p );
-               const SW = VEC2(WIDTH-rp, HEIGHT-rp);
-               const ZERO = VEC2( rp, rp);
+                const rp = pSys.getRadius( p );
+                const SW = VEC2(WIDTH-rp, HEIGHT-rp);
+                const ZERO = VEC2( rp, rp);
                 pSys.addConstraint( FxBoxConstraint(p, ZERO, SW ) );
             }
        }

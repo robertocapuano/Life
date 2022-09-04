@@ -9,6 +9,19 @@ export type FxConstraint = {
 }
 export type FxConstraints = Array<FxConstraint>;
 
+export function FxNoneConstraint( 
+    u: FxParticle, 
+): FxConstraint
+{
+    return {
+        apply: ( p: Array<vec2> ) => {
+
+           },
+        has: ( p: FxParticle ) => ( p === u ),
+    };
+}
+
+
 export function FxLinkConstraint( 
     u: FxParticle, 
     v: FxParticle, 
@@ -144,7 +157,44 @@ export function FxAngle2PConstraint(
             const u_pos = p[v].add( new_dir.scale( uv_dist ) );
             p[u] = u_pos;//u_pos.add(p[u]).scale(1/ONE_SEC);// scale(.5).add(p[u].scale(.5));
         },
-        has: ( p: FxParticle ) => ( p === u ),
+        has: ( p: FxParticle ) => ( p === u || p === v),
+    };
+}
+
+
+export function FxAngle3PConstraint( 
+    u: FxParticle, 
+    v: FxParticle,
+    s: FxParticle,
+    angle: number,
+): FxConstraint
+{
+    return {
+        apply: ( p: Array<vec2> ) => {
+            
+            const axis_ref = p[v].sub(p[s]).normalize();
+            
+            const uv_diff = p[u].sub( p[v] );
+            const uv_dist = uv_diff.mag();
+            const uv_dir = uv_diff.normalize();
+
+            const axis_ref_v3 = vec3.fromVec2( axis_ref );
+            const uv_dir_v3 = vec3.fromVec2( uv_dir );
+            const cr = axis_ref_v3.cross( uv_dir_v3 );
+            const angle_sign = cr.z > 0 ? +1 : -1;
+
+            const rot_angle = angle_sign * axis_ref .angle( uv_dir  );
+
+            const new_angle = clamp( rot_angle, -angle, +angle );
+            const new_dir = VEC2(
+                axis_ref.x * cos(new_angle) - axis_ref.y * sin(new_angle),
+                axis_ref.x * sin(new_angle) + axis_ref.y * cos(new_angle),
+            );
+
+            const u_pos = p[v].add( new_dir.scale( uv_dist ) );
+            p[u] = u_pos;//u_pos.add(p[u]).scale(1/ONE_SEC);// scale(.5).add(p[u].scale(.5));
+        },
+        has: ( p: FxParticle ) => ( p === u || p ===v || p=== s),
     };
 }
 
