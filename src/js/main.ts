@@ -1,3 +1,4 @@
+import { drawBg } from "./bg";
 import { FxConstantForce } from "./fx/FxForces";
 import { FxParticle, ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
@@ -55,7 +56,7 @@ import { UserSlash } from "./user-slash";
             ]),
         );
 
-        const word = lSys.applyProd('F',2);
+        const word = lSys.applyProd('F',1);
         const turtle = new Turtle( 
             MAIN_RADIUS,
             INTRA_RADIUS,
@@ -72,7 +73,7 @@ import { UserSlash } from "./user-slash";
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 1 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 
@@ -82,15 +83,15 @@ import { UserSlash } from "./user-slash";
 
     {
         const sim = new MarchingSquare({
-            canvas: canvas,
+            canvas,
             cellSize: 5,
             threshold: 1,
-            draw: function ()
+            draw:  () =>
             {
-                this.drawBg();
-                this.drawCircles(pSys);
+                drawBg(canvas);
+                sim.drawCircles(pSys);
                 // this.drawGridLines();
-                this.drawSmoothContours();
+                sim.drawSmoothContours();
             },
         });
 
@@ -107,3 +108,4 @@ import { UserSlash } from "./user-slash";
     }
 
 })();
+

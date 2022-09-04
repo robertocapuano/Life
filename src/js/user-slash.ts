@@ -1,6 +1,8 @@
 import { FxParticle } from "./fx/FxParticle";
 import { VEC2, vec2 } from "./fx/vec2";
 
+// https://npm.io/package/tinygesture
+
 const SPLIT_DIST = 50;
 
 export class UserSlash

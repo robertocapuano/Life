@@ -136,7 +136,7 @@ export class MarchingSquare
   {
     const ctx = this._ctx;
 
-    const W =  this._canvas.width;
+    const W = this._canvas.width;
     const H = this._canvas.height;
 
     {
