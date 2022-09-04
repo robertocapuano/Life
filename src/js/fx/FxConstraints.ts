@@ -54,8 +54,6 @@ export function FxBoxConstraint(
     };
 }
 
-
-
 export function FxDistancePointConstraint( 
     u: number, 
     pivot_pos: vec2, 

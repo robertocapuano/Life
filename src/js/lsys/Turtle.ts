@@ -105,12 +105,15 @@ export class Turtle
 
        // pSys.addForce( FxConstantForce( u, VEC2(0,1 * RND01() ) ) );
 
-
-       const SW = VEC2(WIDTH, HEIGHT);
-       const ZERO = VEC2( 0,0);
-
-        for ( let p of particles )
-            pSys.addConstraint( FxBoxConstraint(p, ZERO, SW ) );
+       {
+           for ( let p of particles )
+           {
+               const rp = pSys.getRadius( p );
+               const SW = VEC2(WIDTH-rp, HEIGHT-rp);
+               const ZERO = VEC2( rp, rp);
+                pSys.addConstraint( FxBoxConstraint(p, ZERO, SW ) );
+            }
+       }
 
         this.last_part = u;
         LOGI(`add particle at ${this.pos.toString() }`);
