@@ -65,7 +65,7 @@ export class UserSlash
           };
 
         this.gesture = new TinyGesture(canvas,options);
-/*
+
         this.gesture.on('panstart', (event) => {
             // Always the original mouse or touch event.
             // This service uses passive listeners, so you can't call
@@ -123,7 +123,7 @@ export class UserSlash
             LOGI('panend');
 
           });
-        */
+        
           this.gesture.on('swiperight', (event) => {
             // The gesture was a right swipe.
           
