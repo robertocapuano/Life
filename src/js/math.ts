@@ -1,4 +1,4 @@
-export const { cos, sin, abs, sqrt, acos } = Math;
+export const { cos, sin, abs, sqrt, acos, min, max } = Math;
 
 export const { PI } = Math;
 export const TWOPI = 2 * PI;

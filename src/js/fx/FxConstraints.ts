@@ -1,4 +1,4 @@
-import { acos, clamp, cos, sin } from "../math";
+import { acos, clamp, cos, min, sin } from "../math";
 import { FxParticle, FxPos, ONE_SEC } from "./FxParticle";
 import { mag, sub, VEC2, vec2 } from "./vec2";
 import { vec3 } from "./vec3";
@@ -35,6 +35,26 @@ export function FxLinkConstraint(
         has: ( p: FxParticle ) => ( p === u || p === v ),
     };
 }
+
+export function FxBoxConstraint( 
+    u: FxParticle,
+    minp: vec2,
+    maxp: vec2,
+): FxConstraint
+{
+    return {
+        apply: ( p: Array<vec2> ) => {
+
+            const p_u = p[u];
+            p_u.x = clamp( p_u.x, minp.x, maxp.x );
+            p_u.y = clamp( p_u.y, minp.y, maxp.y );
+
+        },
+        has: ( p: FxParticle ) => ( p === u  ),
+    };
+}
+
+
 
 export function FxDistancePointConstraint( 
     u: number, 
