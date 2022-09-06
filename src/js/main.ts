@@ -52,20 +52,45 @@ import { UserSlash } from "./user-slash";
 
     {
         const lSys = new LSystem(new Map<string,string>([
-            ['F','F[+F]F[-F]F'],
+            ['F', 'F[+F]F[-F]F'],
+/*            ['X','F[+X]F[-X]+X'],
+            ['F','FF'],
+*/
+            // ['F','FF[-F+F+F]+[+F-F-F]'],
+
+            // ['F', 'F[+F]F[-F][F]'],
+/*            ['X', 'F[+X][-X]FX'],
+            ['F','FF'],
+*/
             ]),
         );
 
-        const word = lSys.applyProd('F',1);
-        const turtle = new Turtle( 
-            MAIN_RADIUS,
-            INTRA_RADIUS,
-            VEC2(WIDTH * .5, HEIGHT ), 
-            RAD(-90), 
-            FORWARD_STEP, 
-            RAD(45),  
-        );
-        lSys.applyTurtle( turtle, word, pSys, );
+        {
+            const word = lSys.applyProd('F',2);
+            const turtle = new Turtle( 
+                MAIN_RADIUS,
+                INTRA_RADIUS,
+                VEC2(WIDTH * .5, HEIGHT ), 
+                RAD(-90), 
+                FORWARD_STEP, 
+                RAD(40),  
+            );
+            lSys.applyTurtle( turtle, word, pSys, );
+        }
+
+
+        // {
+        //     const word = lSys.applyProd('F',1);
+        //     const turtle = new Turtle( 
+        //         MAIN_RADIUS,
+        //         INTRA_RADIUS,
+        //         VEC2(WIDTH * .5, 0 ), 
+        //         RAD(+90), 
+        //         FORWARD_STEP, 
+        //         RAD(35),  
+        //     );
+        //     lSys.applyTurtle( turtle, word, pSys, );
+        // }
 
 
         const noise_fn = () => {

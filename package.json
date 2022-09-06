@@ -22,6 +22,7 @@
     "parcel": "latest"
   },
   "dependencies": {
+    "simplex-noise": "^3.0.1",
     "tinygesture": "^2.0.0"
   }
 }

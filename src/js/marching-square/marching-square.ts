@@ -1,4 +1,6 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
+import { LOGI } from "../logs";
+import { MAIN_RADIUS } from "../MainConstants";
 import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { classifyCells } from "./classify-cells";
 import { lerp5 } from "./lerp";
@@ -184,14 +186,27 @@ export class MarchingSquare
     this._ctx.strokeStyle = color;
     const count = pSys.count();
 
-    for (let i = 0; i < count; i++)
+    for ( let i = 0; i < count; i++ )
     {
       const c = pSys.getPos(i);
       if (!c) continue;
+
       const r = pSys.getRadius(i);
+
       this._ctx.beginPath();
       this._ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
+      this._ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
+      // LOGI(`${this._ctx.fillStyle}`)
+      // if (r===MAIN_RADIUS && i< 10)
+      //   // this._ctx.lineWidth = 2;
+      //   this._ctx.fillStyle = 'purple';//,'purple';
+      // else
+      this._ctx.fillStyle = '#942193';
       this._ctx.stroke();
+      // this._ctx.fill();
+      // LOGI(`${this._ctx.fillStyle}`)
+      // if (r===MAIN_RADIUS)
+      //   this._ctx.stroke();
     }
   };
 
@@ -379,6 +394,7 @@ export class MarchingSquare
   drawSmoothContours()
   {
     this._ctx.strokeStyle = LIFE_CLR;
+    // this._ctx.lineWidth = 2;
     for (var i = 0; i < this._cellTypes.length; i++)
     {
       for (var j = 0; j < this._cellTypes[i].length; j++)

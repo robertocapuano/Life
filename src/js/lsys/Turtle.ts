@@ -105,6 +105,7 @@ export class Turtle
 
        // pSys.addForce( FxConstantForce( u, VEC2(0,1 * RND01() ) ) );
 
+       if (false)
        {
            for ( let p of particles )
            {
