@@ -1,4 +1,5 @@
 import { drawBg } from "./bg";
+import { Flow } from "./flow/flow";
 import { FxConstantForce } from "./fx/FxForces";
 import { FxParticle, ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
@@ -46,6 +47,10 @@ import { UserSlash } from "./user-slash";
         // split
     },
     );
+
+    const flow = new Flow();
+    flow.setup();
+
 
     const pSys = new FxParticleSystem();
     pSys.setUp();
@@ -113,7 +118,6 @@ import { UserSlash } from "./user-slash";
             threshold: 1,
             draw:  () =>
             {
-                drawBg(canvas);
                 sim.drawCircles(pSys);
                 // this.drawGridLines();
                 sim.drawSmoothContours();
@@ -122,6 +126,9 @@ import { UserSlash } from "./user-slash";
 
         const update = () =>
         {
+            drawBg(canvas);
+            flow.update(canvas);
+
             pSys.update();
             sim.recalculate( (x: number, y: number) => metaball(x, y, pSys) );
             sim.draw();

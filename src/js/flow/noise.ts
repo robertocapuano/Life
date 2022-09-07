@@ -5,10 +5,17 @@ export class Noise
 {
     private simplex = new SimplexNoise();
 
-    public computeCurl2( uv: vec2 ): vec2
+    // public computeSimplex( uv: vec2 ): vec2
+    // {
+    //     const u1 = this.simplex.noise2D(uv.x, uv.y ) * .5 + .5;
+    //     return u1;
+    // }
+
+    public computeCurl2( uv0: vec2 ): vec2
     {
         const eps = 1e-4;
 
+        const uv = uv0.scale(1e-2);
         const u1 = this.simplex.noise2D(uv.x - eps, uv.y ) * .5 + .5;
         const u2 = this.simplex.noise2D(uv.x + eps, uv.y ) * .5 + .5;
         const du = (u2 - u1) / (2 *eps);

@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "strictNullChecks": false,
+        "strictNullChecks": true,
         "noImplicitAny": false,
         "sourceMap": true,
         "declaration": false,
