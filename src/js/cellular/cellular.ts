@@ -44,18 +44,19 @@ export class Cellular
 
     update()
     {
-
-
+        this.drawCircles();
 
     }
 
      /**
    * Draw the outlines of the circles.
    */
-  drawCircles(pSys: FxParticleSystem, color = CIRCLE_CLR )
+  drawCircles( )
   {
-    const ctx = 
-    this._ctx.strokeStyle = color;
+    const { pSys } = TTWORLD;
+    const color = CIRCLE_CLR
+    const { ctx } = TTWORLD;
+    ctx.strokeStyle = color;
     const count = pSys.count();
 
     for ( let i = 0; i < count; i++ )
@@ -65,16 +66,16 @@ export class Cellular
 
       const r = pSys.getRadius(i);
 
-      this._ctx.beginPath();
-      this._ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
-      this._ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
+      ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
       // LOGI(`${this._ctx.fillStyle}`)
       // if (r===MAIN_RADIUS && i< 10)
       //   // this._ctx.lineWidth = 2;
       //   this._ctx.fillStyle = 'purple';//,'purple';
       // else
-      this._ctx.fillStyle = '#942193';
-      this._ctx.stroke();
+      ctx.fillStyle = '#942193';
+      ctx.stroke();
       // this._ctx.fill();
       // LOGI(`${this._ctx.fillStyle}`)
       // if (r===MAIN_RADIUS)

@@ -150,7 +150,7 @@ import { TTWORLD,  } from "./WorldRefs";
 
             TTWORLD.sim.recalculate( (x: number, y: number) => metaball(x, y ) );
             TTWORLD.sim.drawSmoothContours();
-            TTWORLD.sim.drawCircles(TTWORLD.pSys);
+            // TTWORLD.drawCircles(TTWORLD.pSys);
 
             requestAnimationFrame(update);
         };

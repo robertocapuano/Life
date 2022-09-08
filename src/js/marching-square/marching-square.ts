@@ -190,34 +190,34 @@ export class MarchingSquare
   /**
    * Draw the outlines of the circles.
    */
-  drawCircles(pSys: FxParticleSystem, color = CIRCLE_CLR )
-  {
-    this._ctx.strokeStyle = color;
-    const count = pSys.count();
+  // drawCircles(pSys: FxParticleSystem, color = CIRCLE_CLR )
+  // {
+  //   this._ctx.strokeStyle = color;
+  //   const count = pSys.count();
 
-    for ( let i = 0; i < count; i++ )
-    {
-      const c = pSys.getPos(i);
-      if (!c) continue;
+  //   for ( let i = 0; i < count; i++ )
+  //   {
+  //     const c = pSys.getPos(i);
+  //     if (!c) continue;
 
-      const r = pSys.getRadius(i);
+  //     const r = pSys.getRadius(i);
 
-      this._ctx.beginPath();
-      this._ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
-      this._ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
-      // LOGI(`${this._ctx.fillStyle}`)
-      // if (r===MAIN_RADIUS && i< 10)
-      //   // this._ctx.lineWidth = 2;
-      //   this._ctx.fillStyle = 'purple';//,'purple';
-      // else
-      this._ctx.fillStyle = '#942193';
-      this._ctx.stroke();
-      // this._ctx.fill();
-      // LOGI(`${this._ctx.fillStyle}`)
-      // if (r===MAIN_RADIUS)
-      //   this._ctx.stroke();
-    }
-  };
+  //     this._ctx.beginPath();
+  //     this._ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
+  //     this._ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
+  //     // LOGI(`${this._ctx.fillStyle}`)
+  //     // if (r===MAIN_RADIUS && i< 10)
+  //     //   // this._ctx.lineWidth = 2;
+  //     //   this._ctx.fillStyle = 'purple';//,'purple';
+  //     // else
+  //     this._ctx.fillStyle = '#942193';
+  //     this._ctx.stroke();
+  //     // this._ctx.fill();
+  //     // LOGI(`${this._ctx.fillStyle}`)
+  //     // if (r===MAIN_RADIUS)
+  //     //   this._ctx.stroke();
+  //   }
+  // };
 
   /**
    * Draw the corners samples along with the values of those samples.
