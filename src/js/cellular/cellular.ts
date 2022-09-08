@@ -41,9 +41,16 @@ export class Cellular
     {
         this.drawCircles();
 
+        
     }
 
-     /**
+    private ai()
+    {
+
+
+    }
+
+  /**
    * Draw the outlines of the circles.
    */
   private drawCircles( )

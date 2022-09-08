@@ -1,6 +1,7 @@
 import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2 } from "../fx/vec2";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
+import { PI, sin } from "../math";
 import { randomDir, RND01 } from "../random";
 import { TTWORLD } from "../WorldRefs";
 import { Noise } from "./noise";
@@ -21,9 +22,17 @@ enum FlowType {
 interface FlowGate
 {
     pos: vec2;
+    adv: vec2;
     type: FlowType;
     prog: number;
+    t: number;
+    radius: number;
 }
+
+// const typeRadius: Record<FlowType, number> = {
+//     [FlowType.Source]: 1,
+//     [FlowType.Attractor]: .,
+// };
 
 interface FlowPart
 {
@@ -49,8 +58,30 @@ export class Flow
     
     setup()
     {
-        this.gates = [];
+        {
+            // const NGATES = 4;
+            this.gates = [];
 
+            const pos = VEC2(WIDTH*.3, HEIGHT*.4);
+            const adv = randomDir();
+
+            const types = [ FlowType.Source, FlowType.Attractor, FlowType.Attractor, FlowType.Sink ];
+
+            const RADIUS = 50;
+            const STEP = .1;
+
+            types.forEach( (type, idx ) => {
+                this.gates.push({
+                    pos,
+                    adv,
+                    type,
+                    prog: idx,
+                    t: 1,
+                    radius: RADIUS  * ( 1 - idx * STEP),
+                });
+            });
+        }
+        
         this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];
@@ -68,27 +99,45 @@ export class Flow
 
     update()
     {
+      
+        this.renderGates();
+
+     
+        this.renderParts();
+      
+    }
+
+    private renderGates()
+    {
         const { ctx } = TTWORLD;
 
+        this.gates.forEach( gate => {
+            ctx.beginPath();     
+            ctx.arc(gate.pos.x, gate.pos.y, gate.radius, 0, 2 * Math.PI, false);
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+        });
+        
+    }
 
-        ctx.beginPath();     
-        ctx.arc(WIDTH*.3, HEIGHT*.4, 50, 0, 2 * Math.PI, false);
-        ctx.strokeStyle = 'white';
-        ctx.stroke();
-        ctx.strokeStyle = 'white';
+    private renderParts()
+    {
+        const { ctx } = TTWORLD;
 
         this.parts.forEach( part => {
             const isLive = this.advPart( part );
             
             if (!isLive)
                 this.newPart( part );
+
+            const a = sin( part.ttl_now/part.ttl_sta *PI );
+            ctx.strokeStyle = `rgba( 255,255,255, ${a} )`;
                 
             ctx.beginPath();     
             ctx.moveTo(part.pos_sta.x, part.pos_sta.y);  
             ctx.lineTo(part.pos_end.x, part.pos_end.y ); 
             ctx.stroke();     
 
-         
         });
     }
 
@@ -140,11 +189,8 @@ export class Flow
         //     vel_sta,
         //     pos_end,
         // });
-        
       
         return true;
     }
-
-
 
 }

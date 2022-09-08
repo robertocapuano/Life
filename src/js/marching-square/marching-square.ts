@@ -397,7 +397,7 @@ export class MarchingSquare
     }
   };
 
-  private drawSmoothContours()
+  public drawSmoothContours()
   {
     this._ctx.strokeStyle = LIFE_CLR;
     // this._ctx.lineWidth = 2;
