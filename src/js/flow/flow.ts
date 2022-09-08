@@ -4,7 +4,8 @@ import { HEIGHT, SECS, WIDTH } from "../MainConstants";
 import { randomDir, RND01 } from "../random";
 import { Noise } from "./noise";
 
-const VEL_SCALE = .8 * ONE_SEC;
+const VEL_SCALE = .4 * ONE_SEC;
+const ADV_SCALE = .8 * ONE_SEC;
 const W_STEP = 1/ONE_SEC;
 const TAIL_SCALE = 4;
 
@@ -29,11 +30,12 @@ export class Flow
 
     constructor(
     ) {
-        this.adv = randomDir();
     }
-
+    
     setup()
     {
+        this.adv = randomDir().scale( ADV_SCALE );
+        
         this.parts = [];
 
         const N = 50;
@@ -108,7 +110,7 @@ export class Flow
         const pos_sta = part.pos_sta.add( vel_step );
         
         const curl = this.noise.computeCurl2( pos_sta );
-        const vel_sta = curl.scale(VEL_SCALE);
+        const vel_sta = this.adv.add( curl.scale(VEL_SCALE) );
         const vel_tail = curl.scale( TAIL_SCALE  );
 
         const pos_end = pos_sta.add( vel_tail );
