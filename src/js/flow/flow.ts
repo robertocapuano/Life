@@ -11,6 +11,19 @@ const TAIL_SCALE = 4;
 
 const TTL = SECS(10);
 
+enum FlowType {
+    Source,
+    Attractor,
+    Sink,
+};
+
+interface FlowGate
+{
+    pos: vec2;
+    type: FlowType;
+    prog: number;
+}
+
 interface FlowPart
 {
     pos_sta: vec2;
@@ -24,6 +37,7 @@ interface FlowPart
 
 export class Flow
 {
+    gates: Array<FlowGate>;
     noise = new Noise();
     adv: vec2;
     parts: Array<FlowPart>;
@@ -34,6 +48,8 @@ export class Flow
     
     setup()
     {
+        this.gates = [];
+        
         this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];

@@ -1,7 +1,4 @@
-import { Flow } from "../flow/flow";
 import { FxParticle } from "../fx/FxParticle";
-import { FxParticleSystem } from "../fx/FxParticleSystem";
-import { vec2 } from "../fx/vec2";
 import { MAIN_RADIUS } from "../MainConstants";
 import { TTWORLD } from "../WorldRefs";
 
@@ -31,7 +28,7 @@ export class Cellular
         {
             const r = TTWORLD.pSys.getRadius(idx);
             const isTerm = (r === MAIN_RADIUS);
-            const t = 0;
+            const t = 1;
 
             this.cells.push({
                 idx,
