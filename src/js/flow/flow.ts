@@ -2,6 +2,7 @@ import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2 } from "../fx/vec2";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
 import { randomDir, RND01 } from "../random";
+import { TTWORLD } from "../WorldRefs";
 import { Noise } from "./noise";
 
 const VEL_SCALE = .4 * ONE_SEC;
@@ -49,7 +50,7 @@ export class Flow
     setup()
     {
         this.gates = [];
-        
+
         this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];
@@ -65,11 +66,10 @@ export class Flow
         }
     }
 
-    update( canvas: HTMLCanvasElement )
+    update()
     {
-        const ctx = canvas.getContext('2d');
-        if (!ctx)
-            return;
+        const { ctx } = TTWORLD;
+
 
         ctx.beginPath();     
         ctx.arc(WIDTH*.3, HEIGHT*.4, 50, 0, 2 * Math.PI, false);

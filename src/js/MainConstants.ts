@@ -10,3 +10,9 @@ export const INTRA_RADIUS = 5
 export const AXIS_ANGLE = RAD(30);
 
 export function SECS(x:number) { return x * FPS; };
+
+
+export const CIRCLE_CLR = 'white';
+export const SHADOW_CLR = '#91866e';
+export const LIGHT_CLR = 'white';
+export const LIFE_CLR = 'white';

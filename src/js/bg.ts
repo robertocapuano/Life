@@ -1,11 +1,13 @@
-export function drawBg( canvas: HTMLCanvasElement )
+import { TTWORLD } from "./WorldRefs";
+
+export function drawBg(  )
 {
+  const { canvas } = TTWORLD;
   const ctx = canvas.getContext('2d');
   const W = canvas.width;
   const H = canvas.height;
 
   {
-
     const gradient = ctx.createLinearGradient(0,H, W,0);
     gradient.addColorStop(0, '#9437ff');
     gradient.addColorStop(.75, '#942193');

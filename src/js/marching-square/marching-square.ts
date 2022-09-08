@@ -1,6 +1,3 @@
-import { FxParticleSystem } from "../fx/FxParticleSystem";
-import { LOGI } from "../logs";
-import { MAIN_RADIUS } from "../MainConstants";
 import { TTWORLD } from "../WorldRefs";
 import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { classifyCells } from "./classify-cells";
@@ -8,9 +5,9 @@ import { lerp5 } from "./lerp";
 import { sample } from "./sample";
 import { threshold } from "./threshold";
 
-const CIRCLE_CLR = 'white';
-const SHADOW_CLR = '#91866e';
-const LIGHT_CLR = 'white';
+// const CIRCLE_CLR = 'white';
+// const SHADOW_CLR = '#91866e';
+// const LIGHT_CLR = 'white';
 const LIFE_CLR = 'white';
 
 export interface Options
@@ -25,13 +22,13 @@ export class MarchingSquare
 {
   // draw: () => void;
   // _canvas: HTMLCanvasElement;
-  _threshold: number;
+  private _threshold: number;
   // _ctx: CanvasRenderingContext2D;
-  _cellSize: number;
+  private _cellSize: number;
   // _circles: Array<Circle>;
-  _thresholdedSamples: boolean[][];
-  _samples: number[][];
-  _cellTypes: number[][];
+  private _thresholdedSamples: boolean[][];
+  private _samples: number[][];
+  private _cellTypes: number[][];
 
 
   constructor(options: Options) 
@@ -56,12 +53,12 @@ export class MarchingSquare
     //  }
   }
 
-  get _canvas() : HTMLCanvasElement
+  private get _canvas() : HTMLCanvasElement
   {
     return TTWORLD.canvas;
   }
 
-  get _ctx(): CanvasRenderingContext2D
+  private get _ctx(): CanvasRenderingContext2D
   {
     return TTWORLD.ctx;
   }
@@ -143,7 +140,7 @@ export class MarchingSquare
   /**
    * Draw the background, painting over everything on the canvas.
    */
-  drawBg()
+   private drawBg()
   {
     const ctx = this._ctx;
 
@@ -222,7 +219,7 @@ export class MarchingSquare
   /**
    * Draw the corners samples along with the values of those samples.
    */
-  drawCornerSamples()
+   private drawCornerSamples()
   {
     this._ctx.fillStyle = '#888';
     this._ctx.font = '10px monospace';
@@ -245,7 +242,7 @@ export class MarchingSquare
    * Differentiate cells by drawing those above the threshold and below the
    * threshold in different colors.
    */
-  drawThresholdedCells()
+   private drawThresholdedCells()
   {
     this._ctx.fillStyle = 'green';
     for (var i = 0; i < this._thresholdedSamples.length; i++)
@@ -274,7 +271,7 @@ export class MarchingSquare
    * Differentiate the corners above the threshold and below it by drawing the
    * corners in different colors.
    */
-  drawThresholdedCorners()
+   private drawThresholdedCorners()
   {
     this._ctx.fillStyle = '#888';
     for (var i = 0; i < this._thresholdedSamples.length; i++)
@@ -302,7 +299,7 @@ export class MarchingSquare
   /**
    * Draw the numerical marching squares classification of each cell.
    */
-  drawCellClassification()
+   private drawCellClassification()
   {
     this._ctx.fillStyle = '#888';
     this._ctx.font = '10px monospace';
@@ -322,7 +319,7 @@ export class MarchingSquare
   /**
    * Draw lines showing the boundaries of each cell.
    */
-  drawGridLines(offsetX: number = 0, offsetY: number = 0)
+  private drawGridLines(offsetX: number = 0, offsetY: number = 0)
   {
     this._ctx.strokeStyle = '#888';
     for (var x = offsetX || 0; x < this._canvas.width; x += this._cellSize)
@@ -400,7 +397,7 @@ export class MarchingSquare
     }
   };
 
-  drawSmoothContours()
+  private drawSmoothContours()
   {
     this._ctx.strokeStyle = LIFE_CLR;
     // this._ctx.lineWidth = 2;
