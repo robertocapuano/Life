@@ -1,6 +1,7 @@
 import { drawBg } from "./bg";
 import { Cellular } from "./cellular/cellular";
 import { Flow } from "./flow/flow";
+import { Gate } from "./flow/gate";
 import { FxConstantForce } from "./fx/FxForces";
 import { ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
@@ -58,6 +59,9 @@ import { TTWORLD } from "./WorldRefs";
     TTWORLD.flow = new Flow();
     TTWORLD.flow.setup();
     
+    TTWORLD.gate = new Gate();
+    TTWORLD.gate.setup();
+
     TTWORLD.cellular = new Cellular();
 
     TTWORLD.sim = new MarchingSquare({
@@ -158,6 +162,7 @@ function gameloop()
         drawBg();
 
         TTWORLD.pSys.update();
+        TTWORLD.gate.update();
         TTWORLD.flow.update();
         TTWORLD.cellular.update();
 

@@ -13,27 +13,6 @@ const TAIL_SCALE = 4;
 
 const TTL = SECS(10);
 
-enum FlowType {
-    Source,
-    Attractor,
-    Sink,
-};
-
-interface FlowGate
-{
-    pos: vec2;
-    adv: vec2;
-    type: FlowType;
-    prog: number;
-    t: number;
-    radius: number;
-    active: boolean;
-}
-
-// const typeRadius: Record<FlowType, number> = {
-//     [FlowType.Source]: 1,
-//     [FlowType.Attractor]: .,
-// };
 
 interface FlowPart
 {
@@ -48,7 +27,6 @@ interface FlowPart
 
 export class Flow
 {
-    gates: Array<FlowGate>;
     noise = new Noise();
     adv: vec2;
     parts: Array<FlowPart>;
@@ -59,31 +37,7 @@ export class Flow
     
     setup()
     {
-        {
-            this.gates = [];
-            
-            const pos = VEC2(WIDTH*.3, HEIGHT*.4);
-            const adv = randomDir();
-            
-            const types = [ FlowType.Source, FlowType.Attractor, FlowType.Attractor, FlowType.Sink ];
-            const NGATES = types.length;
-
-            const RADIUS = 50;
-            const STEP = .1;
-
-            types.forEach( (type, idx ) => {
-                this.gates.push({
-                    pos,
-                    adv,
-                    type,
-                    prog: idx,
-                    t: 1,
-                    radius: RADIUS  * ( 1 - idx * STEP),
-                    active: idx === NGATES-1,
-                });
-            });
-        }
-        
+       
         this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];
@@ -102,35 +56,12 @@ export class Flow
     update()
     {
       
-        this.renderGates();
-
      
         this.renderParts();
       
     }
 
-    private renderGates()
-    {
-        const { ctx } = TTWORLD;
-
-        this.gates.forEach( gate => {
-            let r = gate.radius;
-            if (gate.active)
-            {
-                r = gate.radius * .9 + gate.radius * .1 * cos(gate.t * TWOPI);
-                gate.t += 1/ONE_SEC;
-                if (gate.t>1)
-                    gate.t = 0;
-
-                // r *= gate.t;
-            }
-            ctx.beginPath();     
-            ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
-            ctx.strokeStyle = 'white';
-            ctx.stroke();
-        });
-        
-    }
+    
 
     private renderParts()
     {
