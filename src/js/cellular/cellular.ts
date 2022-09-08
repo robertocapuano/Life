@@ -1,8 +1,6 @@
 import { FxParticle } from "../fx/FxParticle";
-import { MAIN_RADIUS } from "../MainConstants";
+import { CIRCLE_CLR, MAIN_RADIUS } from "../MainConstants";
 import { TTWORLD } from "../WorldRefs";
-
-const CIRCLE_CLR = 'white';
 
 interface Cell
 {
@@ -48,10 +46,10 @@ export class Cellular
      /**
    * Draw the outlines of the circles.
    */
-  drawCircles( )
+  private drawCircles( )
   {
     const { pSys } = TTWORLD;
-    const color = CIRCLE_CLR
+    const color = CIRCLE_CLR;
     const { ctx } = TTWORLD;
     ctx.strokeStyle = color;
     const count = pSys.count();
