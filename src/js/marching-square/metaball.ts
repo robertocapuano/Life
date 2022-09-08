@@ -1,7 +1,10 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
+import { TTWORLD } from "../WorldRefs";
 
-export function metaball( x: number, y: number, pSys: FxParticleSystem )
+export function metaball( x: number, y: number )
 {
+    const { pSys } = TTWORLD;
+
     let sum = 0;
 
     const count = pSys.count();

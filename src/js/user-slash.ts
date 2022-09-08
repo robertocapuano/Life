@@ -2,6 +2,7 @@ import { FxParticle } from "./fx/FxParticle";
 import { VEC2, vec2 } from "./fx/vec2";
 import TinyGesture from 'tinygesture';
 import { LOGI } from "./logs";
+import { TTWORLD } from "./WorldRefs";
 
 // https://npm.io/package/tinygesture
 
@@ -24,11 +25,14 @@ export class UserSlash
     private dragging: FxParticle = null;
 
     constructor(
-        public canvas: HTMLCanvasElement,  
-        private callback: ( particles: Array<vec2> ) => void,
-        private drag: ( p: FxParticle, pos: vec2 ) => void,
-        private split: ( p: FxParticle ) => void,
+        // public canvas: HTMLCanvasElement,  
+        // private callback: ( particles: Array<vec2> ) => void,
+        // private drag: ( p: FxParticle, pos: vec2 ) => void,
+        // private split: ( p: FxParticle ) => void,
     ) {
+    }
+
+    setup() {
         const options = {
             // Used to calculate the threshold to consider a movement a swipe. it is
             // passed type of 'x' or 'y'.
@@ -64,7 +68,7 @@ export class UserSlash
             mouseSupport: true,
           };
 
-        this.gesture = new TinyGesture(canvas,options);
+        this.gesture = new TinyGesture(TTWORLD.canvas,options);
 
         this.gesture.on('panstart', (event) => {
             // Always the original mouse or touch event.
@@ -184,68 +188,68 @@ export class UserSlash
     }
 
 
-    private findxy( res: string, e: any )
-    {
-        if (res === 'down') {
-            this.prevX = this.currX;
-            this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft;
-            this.currY = e.clientY - this.canvas.offsetTop;
+    // private findxy( res: string, e: any )
+    // {
+    //     if (res === 'down') {
+    //         this.prevX = this.currX;
+    //         this.prevY = this.currY;
+    //         this.currX = e.clientX - this.canvas.offsetLeft;
+    //         this.currY = e.clientY - this.canvas.offsetTop;
 
-            this.flag = true;
-            this.particles.length = 0;
-            this.particles.push( VEC2( this.currX, this.currY) );
+    //         this.flag = true;
+    //         this.particles.length = 0;
+    //         this.particles.push( VEC2( this.currX, this.currY) );
 
-            // dot_flag = true;
-            // if (dot_flag) 
+    //         // dot_flag = true;
+    //         // if (dot_flag) 
 
-            // {
-            //     let ctx: CanvasRenderingContext2D  = null
-            //     ctx = this.canvas.getContext('2d');
-            //     ctx.beginPath();
-            //     ctx.fillStyle = this.x;
-            //     ctx.fillRect(this.currX, this.currY, 2, 2);
-            //     ctx.closePath();
-            // }
-        }
-        if (res==='up')
-        {
+    //         // {
+    //         //     let ctx: CanvasRenderingContext2D  = null
+    //         //     ctx = this.canvas.getContext('2d');
+    //         //     ctx.beginPath();
+    //         //     ctx.fillStyle = this.x;
+    //         //     ctx.fillRect(this.currX, this.currY, 2, 2);
+    //         //     ctx.closePath();
+    //         // }
+    //     }
+    //     if (res==='up')
+    //     {
 
-            if (this.flag)
-                this.callback(this.particles );
+    //         if (this.flag)
+    //             this.callback(this.particles );
 
-            this.flag = false;
-        }
+    //         this.flag = false;
+    //     }
 
-        if ( res == "out") {
-            this.flag = false;
-        }
-        if (res == 'move') {
-            if (this.flag) {
-                this.prevX = this.currX;
-                this.prevY = this.currY;
-                this.currX = e.clientX - this.canvas.offsetLeft;
-                this.currY = e.clientY - this.canvas.offsetTop;
-                this.particles.push( VEC2( this.currX, this.currY) );
+    //     if ( res == "out") {
+    //         this.flag = false;
+    //     }
+    //     if (res == 'move') {
+    //         if (this.flag) {
+    //             this.prevX = this.currX;
+    //             this.prevY = this.currY;
+    //             this.currX = e.clientX - this.canvas.offsetLeft;
+    //             this.currY = e.clientY - this.canvas.offsetTop;
+    //             this.particles.push( VEC2( this.currX, this.currY) );
 
-                // this.draw(this.canvas);
-            }
-        }
-    }
+    //             // this.draw(this.canvas);
+    //         }
+    //     }
+    // }
 
-    private draw(canvas:HTMLCanvasElement,) {
-        // let ctx: CanvasRenderingContext2D  = null
-        // ctx = canvas.getContext('2d');
+    // private draw(canvas:HTMLCanvasElement,) {
+    //     // let ctx: CanvasRenderingContext2D  = null
+    //     // ctx = canvas.getContext('2d');
         
-        // ctx.beginPath();
-        // ctx.moveTo(this.prevX, this.prevY);
-        // ctx.lineTo(this.currX, this.currY);
-        // ctx.strokeStyle = this.x;
-        // // ctx.lineWidth = y;
-        // ctx.stroke();
-        // ctx.closePath();
+    //     // ctx.beginPath();
+    //     // ctx.moveTo(this.prevX, this.prevY);
+    //     // ctx.lineTo(this.currX, this.currY);
+    //     // ctx.strokeStyle = this.x;
+    //     // // ctx.lineWidth = y;
+    //     // ctx.stroke();
+    //     // ctx.closePath();
 
-    }
+    // }
 
 }
 

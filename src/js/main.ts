@@ -1,4 +1,5 @@
 import { drawBg } from "./bg";
+import { Cellular } from "./cellular/cellular";
 import { Flow } from "./flow/flow";
 import { FxConstantForce } from "./fx/FxForces";
 import { FxParticle, ONE_SEC } from "./fx/FxParticle";
@@ -13,6 +14,7 @@ import { metaball } from "./marching-square/metaball";
 import { RAD } from "./math";
 import { randomDir, RND0N, RND11 } from "./random";
 import { UserSlash } from "./user-slash";
+import { TTWORLD,  } from "./WorldRefs";
 
 (() => {
 
@@ -25,35 +27,50 @@ import { UserSlash } from "./user-slash";
     if (!ctx)
         return;
 
-    const slashUi = new UserSlash( canvas, ( points: Array<vec2> )=>{
-        LOGI(`points [${points}]`);
-        const ps = new Set<FxParticle>();
+    // const slashUi = new UserSlash( canvas, ( points: Array<vec2> )=>{
+    //     // LOGI(`points [${points}]`);
+    //     // const ps = new Set<FxParticle>();
 
-        points.forEach( pnt => {
-            const p = pSys.getParticleAt( pnt );
-            if (!!p)
-                ps.add( p );
-        });
-        LOGI(`ps: ${ps}`);
+    //     // points.forEach( pnt => {
+    //     //     const p = pSys.getParticleAt( pnt );
+    //     //     if (!!p)
+    //     //         ps.add( p );
+    //     // });
+    //     // LOGI(`ps: ${ps}`);
 
-        ps.forEach( p => pSys.removeConstraints( p ) );
+    //     // ps.forEach( p => pSys.removeConstraints( p ) );
 
-        ps.forEach( p => pSys.addForce( FxConstantForce( p, VEC2( 0, +10 ) ) ) );
-    },
-    ( p: FxParticle, pos: vec2 ) => {
-        // drag
-    },
-    ( p: FxParticle ) => {
-        // split
-    },
-    );
+    //     // ps.forEach( p => pSys.addForce( FxConstantForce( p, VEC2( 0, +10 ) ) ) );
+    // },
+    // ( p: FxParticle, pos: vec2 ) => {
+    //     // drag
+    // },
+    // ( p: FxParticle ) => {
+    //     // split
+    // },
+    // );
 
-    const flow = new Flow();
-    flow.setup();
+    TTWORLD.canvas = canvas;
+    TTWORLD.ctx = ctx;
+
+    TTWORLD.pSys = new FxParticleSystem();
+    TTWORLD.pSys.setUp();
+
+    TTWORLD.flow = new Flow();
+    TTWORLD.flow.setup();
+    
+    TTWORLD.cellular = new Cellular();
+
+    TTWORLD.sim = new MarchingSquare({
+        cellSize: 5,
+        threshold: 1,
+    });
+
+    TTWORLD.slashUi = new UserSlash();
+    TTWORLD.slashUi.setup();
 
 
-    const pSys = new FxParticleSystem();
-    pSys.setUp();
+    TTWORLD.cellular.setup();
 
     {
         const lSys = new LSystem(new Map<string,string>([
@@ -80,7 +97,7 @@ import { UserSlash } from "./user-slash";
                 FORWARD_STEP, 
                 RAD(40),  
             );
-            lSys.applyTurtle( turtle, word, pSys, );
+            lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
         }
 
 
@@ -99,11 +116,11 @@ import { UserSlash } from "./user-slash";
 
 
         const noise_fn = () => {
-            const n = pSys.count();
+            const n = TTWORLD.pSys.count();
 
             const u = RND0N(n);
 
-            pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+            TTWORLD.pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
         };
 
@@ -112,26 +129,28 @@ import { UserSlash } from "./user-slash";
     }
 
     {
-        const sim = new MarchingSquare({
-            canvas,
-            cellSize: 5,
-            threshold: 1,
-            draw:  () =>
-            {
-                sim.drawCircles(pSys);
-                // this.drawGridLines();
-                sim.drawSmoothContours();
-            },
-        });
+        // const sim = new MarchingSquare({
+        //     cellSize: 5,
+        //     threshold: 1,
+        //     // draw:  () =>
+        //     // {
+        //     //     sim.drawCircles(pSys);
+        //     //     // this.drawGridLines();
+        //     //     sim.drawSmoothContours();
+        //     // },
+        // });
 
         const update = () =>
         {
             drawBg(canvas);
-            flow.update(canvas);
 
-            pSys.update();
-            sim.recalculate( (x: number, y: number) => metaball(x, y, pSys) );
-            sim.draw();
+            TTWORLD.pSys.update();
+            TTWORLD.flow.update(canvas);
+            TTWORLD.cellular.update();
+
+            TTWORLD.sim.recalculate( (x: number, y: number) => metaball(x, y ) );
+            TTWORLD.sim.drawSmoothContours();
+            TTWORLD.sim.drawCircles(TTWORLD.pSys);
 
             requestAnimationFrame(update);
         };

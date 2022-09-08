@@ -1,6 +1,7 @@
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { LOGI } from "../logs";
 import { MAIN_RADIUS } from "../MainConstants";
+import { TTWORLD } from "../WorldRefs";
 import { cellTypeToPolyCorners } from "./cell-type-to-poly-corners";
 import { classifyCells } from "./classify-cells";
 import { lerp5 } from "./lerp";
@@ -14,18 +15,18 @@ const LIFE_CLR = 'white';
 
 export interface Options
 {
-  draw: () => void | null;
-  canvas: HTMLCanvasElement | null;
-  cellSize: number | null;
-  threshold: number | null;
+  // draw: () => void | null;
+  // canvas: HTMLCanvasElement;
+  cellSize: number;
+  threshold: number;
 }
 
 export class MarchingSquare
 {
-  draw: () => void;
-  _canvas: HTMLCanvasElement;
+  // draw: () => void;
+  // _canvas: HTMLCanvasElement;
   _threshold: number;
-  _ctx: CanvasRenderingContext2D;
+  // _ctx: CanvasRenderingContext2D;
   _cellSize: number;
   // _circles: Array<Circle>;
   _thresholdedSamples: boolean[][];
@@ -35,17 +36,15 @@ export class MarchingSquare
 
   constructor(options: Options) 
   {
-    this.draw = options.draw;
+    // this.draw = options.draw;
 
-    if (!this.draw)
-    {
-      throw new Error("Must provide a draw function");
-    }
+    // if (!this.draw)
+    // {
+    //   throw new Error("Must provide a draw function");
+    // }
 
-    this._canvas = options.canvas;
     this._cellSize = options.cellSize;
     this._threshold = options.threshold || 1.0;
-    this._ctx = this._canvas.getContext('2d');
 
     //  if (options.circles) {
     //    this._circles = options.circles;
@@ -55,6 +54,16 @@ export class MarchingSquare
     //      this._circles.push(this.generateCircle());
     //    }
     //  }
+  }
+
+  get _canvas() : HTMLCanvasElement
+  {
+    return TTWORLD.canvas;
+  }
+
+  get _ctx(): CanvasRenderingContext2D
+  {
+    return TTWORLD.ctx;
   }
 
   /**
