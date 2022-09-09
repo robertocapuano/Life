@@ -1,5 +1,5 @@
 import TinyGesture from 'tinygesture';
-import { VEC2 } from './fx/vec2';
+import { vec2, VEC2 } from './fx/vec2';
 import { LOGI } from "./logs";
 import { TTWORLD } from "./WorldRefs";
 
@@ -9,6 +9,14 @@ export class UserSlash
 {
     private gesture: TinyGesture;
  
+    static eventToPos( event: MouseEvent ): vec2
+    {
+      const currX = event.clientX - TTWORLD.canvas.offsetLeft;
+      const currY = event.clientY - TTWORLD.canvas.offsetTop;
+
+      return VEC2(currX,currY );
+    }
+
     constructor(
     ) {
     }
@@ -65,8 +73,7 @@ export class UserSlash
             const currY = event.clientY - TTWORLD.canvas.offsetTop;
 
             LOGI(`panstart: ${ currX}, ${ currY}`);
-
-            TTWORLD.gate.moveTo( VEC2(currX,currY ) );
+            TTWORLD.gate.selectAt( VEC2(currX,currY ) );
 
             // find gate
           });
@@ -102,9 +109,7 @@ export class UserSlash
             LOGI('panmove');
 
 
-            const currX = event.clientX - TTWORLD.canvas.offsetLeft;
-            const currY = event.clientY - TTWORLD.canvas.offsetTop;
-            TTWORLD.gate.moveTo( VEC2(currX,currY ) );
+            TTWORLD.gate.moveTo( UserSlash.eventToPos( event ) );
 
           });
           this.gesture.on('panend', (event) => {
@@ -183,55 +188,5 @@ export class UserSlash
           */
     }
 
-
-
-    private findxy( res: string, e: any )
-    {
-        if (res === 'down') {
-            this.prevX = this.currX;
-            this.prevY = this.currY;
-            this.currX = e.clientX - this.canvas.offsetLeft;
-            this.currY = e.clientY - this.canvas.offsetTop;
-
-            this.flag = true;
-            this.particles.length = 0;
-            this.particles.push( VEC2( this.currX, this.currY) );
-
-            // dot_flag = true;
-            // if (dot_flag) 
-
-            // {
-            //     let ctx: CanvasRenderingContext2D  = null
-            //     ctx = this.canvas.getContext('2d');
-            //     ctx.beginPath();
-            //     ctx.fillStyle = this.x;
-            //     ctx.fillRect(this.currX, this.currY, 2, 2);
-            //     ctx.closePath();
-            // }
-        }
-        if (res==='up')
-        {
-
-            if (this.flag)
-                this.callback(this.particles );
-
-            this.flag = false;
-        }
-
-        if ( res == "out") {
-            this.flag = false;
-        }
-        if (res == 'move') {
-            if (this.flag) {
-                this.prevX = this.currX;
-                this.prevY = this.currY;
-                this.currX = e.clientX - this.canvas.offsetLeft;
-                this.currY = e.clientY - this.canvas.offsetTop;
-                this.particles.push( VEC2( this.currX, this.currY) );
-
-                // this.draw(this.canvas);
-            }
-        }
-    }
   
   }

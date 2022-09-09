@@ -53,7 +53,7 @@ export class Gate
                 type,
                 prog: idx,
                 t: 1,
-                radius: RADIUS  * ( 1 - idx * STEP),
+                radius: RADIUS  * (1 - idx * STEP),
                 active: idx === NGATES-1,
                 disabled: false,
             });
@@ -69,6 +69,36 @@ export class Gate
     {
         this.renderGates();
     }
+
+    selectAt( pos: vec2 ): boolean
+    {
+        for ( let gate of this.gates.slice(0).reverse() )
+        {
+            const dist = gate.pos.sub( pos ).mag();
+
+            if (dist<gate.radius)
+            {
+                this.selected = gate;
+                
+                return true;
+            }
+        }
+
+        this.selected = null;
+        return false;
+    }
+
+    // private select( gate: GateFlow )
+    // {
+    //     if (!!this.selected)
+    //     {
+    //         this.selected.active = false;
+    //         this.selected = null;
+    //     }
+
+    //     gate.active = true;
+    //     this.selected = gate;
+    // }
 
     moveTo( dest: vec2 ): boolean
     {
@@ -92,8 +122,6 @@ export class Gate
                 gate.t += 1/ONE_SEC;
                 if (gate.t>1)
                     gate.t = 0;
-
-                // r *= gate.t;
             }
             ctx.beginPath();     
             ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
