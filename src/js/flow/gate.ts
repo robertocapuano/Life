@@ -1,10 +1,9 @@
 import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2 } from "../fx/vec2";
-import { HEIGHT, SECS, WIDTH } from "../MainConstants";
-import { cos, max, PI, sin, TWOPI } from "../math";
-import { randomDir, RND01 } from "../random";
+import { HEIGHT, WIDTH } from "../MainConstants";
+import { cos, TWOPI } from "../math";
+import { randomDir } from "../random";
 import { TTWORLD } from "../WorldRefs";
-import { Noise } from "./noise";
 
 enum GateType {
     Source,
@@ -26,9 +25,9 @@ interface GateFlow
 
 export class Gate
 {
-    gates: Array<GateFlow>;
+    private gates: Array<GateFlow>;
     // noise = new Noise();
-    // adv: vec2;
+    private selected: GateFlow;
 
     constructor(
     ) {
@@ -36,40 +35,49 @@ export class Gate
     
     setup()
     {
-        {
-            this.gates = [];
-            
-            const pos = VEC2(WIDTH*.3, HEIGHT*.4);
-            const adv = randomDir();
-            
-            const types = [ GateType.Source, GateType.Attractor, GateType.Attractor, GateType.Sink ];
-            const NGATES = types.length;
-
-            const RADIUS = 50;
-            const STEP = .1;
-
-            types.forEach( (type, idx ) => {
-                this.gates.push({
-                    pos,
-                    adv,
-                    type,
-                    prog: idx,
-                    t: 1,
-                    radius: RADIUS  * ( 1 - idx * STEP),
-                    active: idx === NGATES-1,
-                    disabled: false,
-                });
-            });
-        }
+        this.gates = [];
         
+        const pos = VEC2(WIDTH*.3, HEIGHT*.4);
+        const adv = randomDir();
+        
+        const types = [ GateType.Source, GateType.Attractor, GateType.Attractor, GateType.Sink ];
+        const NGATES = types.length;
+
+        const RADIUS = 50;
+        const STEP = .1;
+
+        types.forEach( (type, idx ) => {
+            this.gates.push({
+                pos,
+                adv,
+                type,
+                prog: idx,
+                t: 1,
+                radius: RADIUS  * ( 1 - idx * STEP),
+                active: idx === NGATES-1,
+                disabled: false,
+            });
+        });
+
+
+        this.selected = this.gates[NGATES-1];
+    
     
     }
 
     update()
     {
-      
         this.renderGates();
-      
+    }
+
+    moveTo( dest: vec2 ): boolean
+    {
+        if (!this.selected)
+            return false;
+
+        this.selected.pos = dest;
+
+        return true;
     }
 
     private renderGates()

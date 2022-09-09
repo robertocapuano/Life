@@ -1,4 +1,5 @@
 import TinyGesture from 'tinygesture';
+import { VEC2 } from './fx/vec2';
 import { LOGI } from "./logs";
 import { TTWORLD } from "./WorldRefs";
 
@@ -50,7 +51,7 @@ export class UserSlash
 
         this.gesture = new TinyGesture(TTWORLD.canvas,options);
 
-        this.gesture.on('panstart', (event) => {
+        this.gesture.on('panstart', (event: MouseEvent) => {
             // Always the original mouse or touch event.
             // This service uses passive listeners, so you can't call
             // event.preventDefault() on any of the events.
@@ -59,11 +60,17 @@ export class UserSlash
             this.gesture.touchStartX;
             // The (screen) y coordinate of the start of the gesture.
             this.gesture.touchStartY;
-            LOGI('panstart');
+
+            const currX = event.clientX - TTWORLD.canvas.offsetLeft;
+            const currY = event.clientY - TTWORLD.canvas.offsetTop;
+
+            LOGI(`panstart: ${ currX}, ${ currY}`);
+
+            TTWORLD.gate.moveTo( VEC2(currX,currY ) );
 
             // find gate
           });
-          this.gesture.on('panmove', (event) => {
+          this.gesture.on('panmove', (event:MouseEvent) => {
             // Everything from panstart, and...
           
             // The amount the gesture has moved in the x direction.
@@ -93,6 +100,11 @@ export class UserSlash
             //     alert('You are currently swiping right.');
             // }
             LOGI('panmove');
+
+
+            const currX = event.clientX - TTWORLD.canvas.offsetLeft;
+            const currY = event.clientY - TTWORLD.canvas.offsetTop;
+            TTWORLD.gate.moveTo( VEC2(currX,currY ) );
 
           });
           this.gesture.on('panend', (event) => {
@@ -171,4 +183,55 @@ export class UserSlash
           */
     }
 
-}
+
+
+    private findxy( res: string, e: any )
+    {
+        if (res === 'down') {
+            this.prevX = this.currX;
+            this.prevY = this.currY;
+            this.currX = e.clientX - this.canvas.offsetLeft;
+            this.currY = e.clientY - this.canvas.offsetTop;
+
+            this.flag = true;
+            this.particles.length = 0;
+            this.particles.push( VEC2( this.currX, this.currY) );
+
+            // dot_flag = true;
+            // if (dot_flag) 
+
+            // {
+            //     let ctx: CanvasRenderingContext2D  = null
+            //     ctx = this.canvas.getContext('2d');
+            //     ctx.beginPath();
+            //     ctx.fillStyle = this.x;
+            //     ctx.fillRect(this.currX, this.currY, 2, 2);
+            //     ctx.closePath();
+            // }
+        }
+        if (res==='up')
+        {
+
+            if (this.flag)
+                this.callback(this.particles );
+
+            this.flag = false;
+        }
+
+        if ( res == "out") {
+            this.flag = false;
+        }
+        if (res == 'move') {
+            if (this.flag) {
+                this.prevX = this.currX;
+                this.prevY = this.currY;
+                this.currX = e.clientX - this.canvas.offsetLeft;
+                this.currY = e.clientY - this.canvas.offsetTop;
+                this.particles.push( VEC2( this.currX, this.currY) );
+
+                // this.draw(this.canvas);
+            }
+        }
+    }
+  
+  }
