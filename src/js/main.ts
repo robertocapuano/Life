@@ -55,12 +55,13 @@ import { TTWORLD } from "./WorldRefs";
 
     TTWORLD.pSys = new FxParticleSystem();
     TTWORLD.pSys.setUp();
-
-    TTWORLD.flow = new Flow();
-    TTWORLD.flow.setup();
     
     TTWORLD.gate = new Gate();
     TTWORLD.gate.setup();
+    
+    TTWORLD.flow = new Flow();
+    TTWORLD.flow.setup();
+
 
     TTWORLD.cellular = new Cellular();
 

@@ -1,7 +1,7 @@
 import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2 } from "../fx/vec2";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
-import { cos, max, PI, sin, TWOPI } from "../math";
+import { PI, sin } from "../math";
 import { randomDir, RND01 } from "../random";
 import { TTWORLD } from "../WorldRefs";
 import { Noise } from "./noise";
@@ -42,7 +42,7 @@ export class Flow
         
         this.parts = [];
 
-        const N = 50;
+        const N = 500;
 
         for ( let i=0; i<N; ++i )
         {
@@ -50,6 +50,7 @@ export class Flow
 
             this.newPart( part );
             this.parts.push( part );
+            // part.pos_sta = VEC2( 1e5, 1e5);
         }
     }
 
@@ -60,8 +61,6 @@ export class Flow
         this.renderParts();
       
     }
-
-    
 
     private renderParts()
     {
@@ -87,8 +86,9 @@ export class Flow
     private newPart( part: FlowPart )
     {
         // const pos_sta = VEC2( RND01() * WIDTH*.1+ WIDTH*.1, RND01() * HEIGHT*.1+ HEIGHT*.1 );//   QU.rotate( rot_sta, this.mainAxis ).scale(HSCALE);
-        const pos_sta = VEC2( RND01() * WIDTH*.2+ WIDTH*.2, RND01() * HEIGHT*.2+ HEIGHT*.2 );//   QU.rotate( rot_sta, this.mainAxis ).scale(HSCALE);
+        // const pos_sta = VEC2( RND01() * WIDTH*.2+ WIDTH*.2, RND01() * HEIGHT*.2+ HEIGHT*.2 );//   QU.rotate( rot_sta, this.mainAxis ).scale(HSCALE);
 
+        const pos_sta = TTWORLD.gate.getSource();
         const curl = this.noise.computeCurl2( pos_sta );
         const vel_sta = curl.scale(VEL_SCALE);
         const vel_tail = curl.scale( TAIL_SCALE );
@@ -114,11 +114,15 @@ export class Flow
         if ( --part.ttl_now <=0 )
             return false;
 
+        const t = 1 - part.ttl_now / part.ttl_sta;
+
+        const adv = TTWORLD.gate.getAdv( t ).scale( ADV_SCALE );
+
         const vel_step = part.vel_sta.scale( W_STEP );
         const pos_sta = part.pos_sta.add( vel_step );
         
         const curl = this.noise.computeCurl2( pos_sta );
-        const vel_sta = this.adv.add( curl.scale(VEL_SCALE) );
+        const vel_sta = adv.add( curl.scale(VEL_SCALE) );
         const vel_tail = curl.scale( TAIL_SCALE  );
 
         const pos_end = pos_sta.add( vel_tail );
