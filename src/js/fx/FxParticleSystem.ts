@@ -21,7 +21,7 @@ export class FxParticleSystem
     private fp: FxForces;
     private ft: FxForces;
 
-    private grid: Grid;
+    private grid: Grid<number>;
     
     constructor()
     {}

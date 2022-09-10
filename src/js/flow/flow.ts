@@ -32,7 +32,7 @@ export class Flow
     noise = new Noise();
     adv: vec2;
     parts: Array<FlowPart>;
-    grid: Grid;
+    grid: Grid<number>;
 
     constructor(
     ) {

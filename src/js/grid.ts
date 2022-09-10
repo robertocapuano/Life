@@ -1,22 +1,22 @@
 import { VEC2, vec2 } from "./fx/vec2";
 import { abs } from "./math";
 
-class Bucket
+class Bucket<T>
 {
-    indexes: Array<number>;
+    indexes: Array<T>;
 
     constructor() {
         this.indexes = [];
     }
 
-    add( index: number )    { this.indexes.push( index ); }
+    add( index: T )    { this.indexes.push( index ); }
     size()                  { return this.indexes.length; }
     clear()                 {  this.indexes.length = 0; }
 }
 
-export class Grid
+export class Grid<T>
 {
-    private buckets = new Array<Bucket>();
+    private buckets = new Array<Bucket<T>>();
 
     constructor( 
         private n: number,
@@ -31,7 +31,7 @@ export class Grid
 
      }
     
-    add( idx: number, pos: vec2, radius: number )
+    add( idx: T, pos: vec2, radius: number )
     {
         const indexes = this.adjacentCells( pos, radius );
         
@@ -41,7 +41,7 @@ export class Grid
         }
     }
     
-    getBucket( pos: vec2 ): Bucket
+    getBucket( pos: vec2 ): Bucket<T>
     {
         const idx = this.posToIndex( pos );
 
