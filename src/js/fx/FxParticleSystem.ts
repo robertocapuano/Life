@@ -1,3 +1,4 @@
+import { Grid } from '../grid';
 import { FxConstraint, FxConstraints } from './FxConstraints';
 import { FxCollisionForce, FxForce, FxForces } from './FxForces';
 import { FxParticle, FX_ITERATIONS, FX_PARTICLE_RADIUS, FX_VEL_DAMPING, FX_TIMESTEP_SQR, FxParticles } from './FxParticle';
@@ -20,6 +21,8 @@ export class FxParticleSystem
     private fp: FxForces;
     private ft: FxForces;
 
+    private grid: Grid;
+    
     constructor()
     {}
 
@@ -40,6 +43,7 @@ export class FxParticleSystem
         this.fp = [];
         this.ft = [];
 
+        this.grid = new Grid( 1000, 100, true );
     }
 
     tearDown()
@@ -58,6 +62,8 @@ export class FxParticleSystem
 
         this.fp.length = 0;
         this.ft.length = 0;
+
+        this.grid.clear();
     }
 
     // private clean()
@@ -72,7 +78,10 @@ export class FxParticleSystem
 
         for (let j=0; j<FX_ITERATIONS; ++j)
         {
-            this.n2Collision();
+            this.updateGrid();
+
+            this.gridCollision();
+            // this.n2Collision();
 
             this.a.forEach( ai => ai.zero() );
 
@@ -90,6 +99,15 @@ export class FxParticleSystem
         
     }
 
+    private updateGrid()
+    {
+        this.grid.clear();
+
+        for ( let i=0; i<this.p1.length; ++i )
+        {
+            this.grid.add( i, this.p1[i], this.r[i] );
+        }
+    }
 
     private n2Collision()
     {
@@ -113,6 +131,39 @@ export class FxParticleSystem
                 
             }
     
+    }
+
+    gridCollision()
+    {
+        const p_count = this.count();
+
+        for ( let u=0, l=p_count; u<l; u++ )
+        {
+            const cell = this.grid.getBucket( this.p1[u] );
+
+            if ( cell.size() == 1 )
+                continue;
+
+            for ( const v of cell.indexes )
+            {
+                if ( v == u )
+                    continue;
+
+                const p_u = this.p1[u];
+                const p_v = this.p1[v];
+                    
+                const delta = p_u.sub( p_v);
+                const delta_lenght = delta.mag();
+
+                const LINK_DISTANCE = this.r[u] + this.r[v];
+                    
+                if (delta_lenght >= LINK_DISTANCE)
+                    continue;
+
+                this.addTmpForce( FxCollisionForce( u, v, LINK_DISTANCE ) );
+            }
+        }
+
     }
 
     private verletInt()
