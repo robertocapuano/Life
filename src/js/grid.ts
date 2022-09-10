@@ -41,11 +41,11 @@ export class Grid<T>
         }
     }
     
-    getBucket( pos: vec2 ): Bucket<T>
+    getBucket( pos: vec2 ): Array<T>
     {
         const idx = this.posToIndex( pos );
 
-        return this.buckets[idx];
+        return this.buckets[idx].indexes;
     }
 
     clear()

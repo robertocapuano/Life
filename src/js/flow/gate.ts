@@ -1,11 +1,20 @@
 import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
+import { VEC3_ZERO } from "../fx/vec3";
+import { Grid } from "../grid";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
-import { cos, min, PI, sin, TWOPI } from "../math";
+import { cos, min, PI, POW2, sin, sqrt, TWOPI } from "../math";
 import { randomDir, RND01 } from "../random";
 import { TTWORLD } from "../WorldRefs";
 
 const PULSE_TICKS = 1/SECS(2);
+
+const CELL_WIDTH = 50;
+const CELL_HEIGHT = 50;
+const CELL_SIZE = CELL_WIDTH * CELL_HEIGHT;
+
+const COLS = Math.trunc(WIDTH/CELL_WIDTH);
+const ROWS = Math.trunc(HEIGHT/CELL_HEIGHT);
 
 enum GateType {
     Source,
@@ -25,19 +34,23 @@ interface GateFlow
     disabled: boolean;
     delta: number;
 }
-
 export class Gate
 {
     private gates: Array<GateFlow>;
     // noise = new Noise();
     private selected: GateFlow;
 
+    private grid: Grid<vec2>;
+
     constructor(
     ) {
+        this.grid = new Grid<vec2>( WIDTH * HEIGHT/ CELL_SIZE, CELL_SIZE, false );
     }
     
     setup()
     {
+        this.grid.clear();
+
         this.gates = [];
         
         const pos = VEC2(WIDTH*.3, HEIGHT*.4);
@@ -108,7 +121,7 @@ export class Gate
 
         this.selected.pos = dest;
 
-        this.compAdv();
+        this.compGrid();
 
         return true;
     }
@@ -124,8 +137,11 @@ export class Gate
         return src;
     }
 
-    getAdv( t: number )
+    getAdv( pos: vec2 ): vec2
     {
+        const b = this.grid.getBucket( pos );
+        return b[0] ?? VEC2_ZERO();
+
         // const step = 1 / this.gates.length;
         // const l = this.gates.length-1;
         // const i = min( t * this.gates.length, l);
@@ -133,33 +149,79 @@ export class Gate
 
         // this.gates[i].pos.sub( this.gates[j].pos ).normalize().scale( 
 
-        const alpha = t * TWOPI;
+        // const alpha = t * TWOPI;
 
-        const dire = VEC2_ZERO();
+        // const dire = VEC2_ZERO();
 
-        this.gates.forEach( (gate) => {
-            const w = cos(  gate.delta - alpha ) ;
-            dire.addInPlace( gate.adv.scale(w) );
-        });
+        // this.gates.forEach( (gate) => {
+        //     const w = cos(  gate.delta - alpha ) ;
+        //     dire.addInPlace( gate.adv.scale(w) );
+        // });
 
-        return dire;
+        // return dire;
     }
 
-    private compAdv()
+    private compGrid()
     {
-        // this.gates[0].adv = randomDir();
-        const EPS = 1;
+        this.grid.clear();
+        const pos = VEC2_ZERO();
 
-        for ( let i=1; i<this.gates.length; ++i )
+        for ( let i=0; i<ROWS; ++i )
         {
-            const diff = this.gates[i].pos.sub(  this.gates[i-1].pos );
-            const dist = diff.mag();
-            const dire = (dist<EPS) ? randomDir() : diff.normalize();
-           
-            this.gates[i].adv = dire;
+            for ( let j=0; j<COLS; ++j )
+            {
+                pos.x = (i+.5) * CELL_WIDTH;
+                pos.y = (j+.5) * CELL_HEIGHT
+
+                const adv = this.compAdv( pos );
+                const bkt = this.grid.getBucket(pos);
+                if (!bkt.length)
+                    bkt.push( VEC2_ZERO() );
+                    // this.grid.add( adv, pos, WIDTH );
+
+                // bkt[0] = adv.mag()>bkt[0].mag() ? adv : bkt[0];// .addInPlace( adv );
+                bkt[0].addInPlace( adv );
+            }
         }
 
-        this.gates[0].adv = this.gates[1].adv.clone();
+        // // this.gates[0].adv = randomDir();
+        // const EPS = 1;
+
+        // for ( let i=1; i<this.gates.length; ++i )
+        // {
+        //     const diff = this.gates[i].pos.sub(  this.gates[i-1].pos );
+        //     const dist = diff.mag();
+        //     const dire = (dist<EPS) ? randomDir() : diff.normalize();
+           
+        //     this.gates[i].adv = dire;
+        // }
+
+        // this.gates[0].adv = this.gates[1].adv.clone();
+    }
+
+    private compAdv( pos: vec2 ): vec2
+    {
+        const MAG = 1e-2;
+        const adv = VEC2_ZERO()
+
+        for ( const gate of this.gates )
+        {
+            const diff = gate.pos .sub( pos );
+           
+            if (gate.type === GateType.Source )
+                diff.negateInPlace();
+
+            const dist = diff.mag();
+
+            const dire = diff.normalize();
+         
+            const mag = ( (gate.prog+1)*MAG ) / sqrt(dist);//(gate.prog+1)*.2+
+
+            const adv_g = dire.scale(mag);
+            adv.addInPlace( adv_g )
+        }
+
+        return adv;
     }
 
     private renderGates()

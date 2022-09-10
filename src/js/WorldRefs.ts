@@ -16,14 +16,5 @@ interface WorldRefs {
     ctx: CanvasRenderingContext2D;
 };
 
-export let TTWORLD: WorldRefs = {
-    sim: null,
-    pSys: null,
-    flow: null,
-    gate: null,
-    cellular: null,
-    slashUi: null,
-    canvas: null,
-    ctx: null,
-};
+export let TTWORLD: WorldRefs = {} as WorldRefs;
 

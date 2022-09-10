@@ -14,7 +14,6 @@ const TAIL_SCALE = 4;
 
 const TTL = SECS(10);
 
-
 interface FlowPart
 {
     idx: number;
@@ -36,12 +35,11 @@ export class Flow
 
     constructor(
     ) {
-        this.grid = new Grid( 1000, 100, false );
+        this.grid = new Grid( WIDTH+HEIGHT, 100, false );
     }
     
     setup()
     {
-       
         this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];
@@ -125,9 +123,9 @@ export class Flow
         if ( --part.ttl_now <=0 )
             return false;
 
-        const t = 1 - part.ttl_now / part.ttl_sta;
+        // const t = 1 - part.ttl_now / part.ttl_sta;
 
-        const adv = TTWORLD.gate.getAdv( t ).scale( ADV_SCALE );
+        const adv = TTWORLD.gate.getAdv( part.pos_sta ).scale( ADV_SCALE );
 
         const vel_step = part.vel_sta.scale( W_STEP );
         const pos_sta = part.pos_sta.add( vel_step );

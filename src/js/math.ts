@@ -1,4 +1,4 @@
-export const { cos, sin, abs, sqrt, acos, min, max } = Math;
+export const { cos, sin, abs, sqrt, acos, min, max, trunc } = Math;
 
 export const { PI } = Math;
 export const TWOPI = 2 * PI;
@@ -15,3 +15,5 @@ export function DEG(x: number) { return x * (180.0 / Math.PI); }
 export function Modulo(a: number, base: number) {
     return ((a % base) + base) % base;
 }
+
+export function POW2( x: number ) { return x * x; }

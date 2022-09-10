@@ -141,10 +141,10 @@ export class FxParticleSystem
         {
             const cell = this.grid.getBucket( this.p1[u] );
 
-            if ( cell.size() == 1 )
+            if ( cell.length == 1 )
                 continue;
 
-            for ( const v of cell.indexes )
+            for ( const v of cell )
             {
                 if ( v == u )
                     continue;

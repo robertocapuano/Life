@@ -38,6 +38,14 @@ export class vec2
         return new vec2( -a.x, - a.y );
     }
 
+    negateInPlace(): vec2
+    {
+        this.x *= -1;
+        this.y *= -1;
+        
+        return this;
+    }
+
     sub( b: vec2 ): vec2
     {
         const a = this;
