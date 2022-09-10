@@ -70,7 +70,7 @@ export class Gate
                 prog: idx,
                 t: 1,
                 radius: RADIUS  * (1 - idx * STEP),
-                active: false,//idx === NGATES-1,
+                active: type===GateType.Source,//false,//idx === NGATES-1,
                 disabled: false,
                 delta: idx * TWOPI / (NGATES-1),
             });
@@ -238,8 +238,22 @@ export class Gate
                 if (gate.t>1)
                     gate.t = 0;
             }
-            ctx.beginPath();     
-            ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
+
+            ctx.beginPath();
+            // switch( gate.type )
+            {
+                // case GateType.Source:
+                // {
+                //     ctx.rect( gate.pos.x- r, gate.pos.y-r, 2*r, 2 *r );
+                //     break;
+                // }
+                // default:
+                // {
+                    ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
+                //     break;
+                // }
+            }
+
             ctx.strokeStyle = 'white';
             ctx.stroke();
         });
