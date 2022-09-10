@@ -1,5 +1,6 @@
 import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2 } from "../fx/vec2";
+import { Grid } from "../grid";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
 import { PI, sin } from "../math";
 import { randomDir, RND01 } from "../random";
@@ -16,6 +17,7 @@ const TTL = SECS(10);
 
 interface FlowPart
 {
+    idx: number;
     pos_sta: vec2;
     vel_sta: vec2;
 
@@ -30,9 +32,11 @@ export class Flow
     noise = new Noise();
     adv: vec2;
     parts: Array<FlowPart>;
+    grid: Grid;
 
     constructor(
     ) {
+        this.grid = new Grid( 1000, 100, false );
     }
     
     setup()
@@ -46,7 +50,7 @@ export class Flow
 
         for ( let i=0; i<N; ++i )
         {
-            const part = {} as FlowPart;
+            const part = { idx: i, } as FlowPart;
 
             this.newPart( part );
             this.parts.push( part );
@@ -54,10 +58,17 @@ export class Flow
         }
     }
 
+    teardown()
+    {
+        this.grid.clear();
+        this.parts.length = 0;
+    }
+
     update()
     {
       
-     
+        this.grid.clear();
+
         this.renderParts();
       
     }
@@ -130,6 +141,8 @@ export class Flow
         part.pos_sta = pos_sta;
         part.vel_sta = vel_sta;
         part.pos_end = pos_end;
+
+        this.grid.add( part.idx, part.pos_sta, 1 );
 
         // Object.assign( part, {
         //     pos_sta,
