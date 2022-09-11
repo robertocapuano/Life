@@ -6,6 +6,7 @@ import { FxConstantForce } from "./fx/FxForces";
 import { ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
 import { VEC2 } from "./fx/vec2";
+import { Intro, intro } from "./intro";
 import { HEIGHT, WIDTH } from "./MainConstants";
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
@@ -14,7 +15,9 @@ import { RND0N, RND11 } from "./random";
 import { UserSlash } from "./user-slash";
 import { TTWORLD } from "./WorldRefs";
 
-(() => {
+( async () =>  {
+
+   
 
     const canvas = document.createElement("canvas");
     canvas.width = WIDTH;
@@ -46,16 +49,22 @@ import { TTWORLD } from "./WorldRefs";
 
     TTWORLD.slashUi = new UserSlash();
     TTWORLD.slashUi.setup();
-    
-    const populate_fn = populate[ RND0N( populate.length) ]; //populate.length-1];//
-    populate_fn();
+    TTWORLD.slashUi.isPlay = false;
 
-    TTWORLD.cellular.setup();
-    
-    noise();
+    TTWORLD.intro = new Intro( () => {
+        TTWORLD.slashUi.isPlay = true;
+        TTWORLD.gate.align();
+
+        const populate_fn = populate[ RND0N( populate.length) ]; //populate.length-1];//
+        populate_fn();
+        
+        TTWORLD.cellular.setup();
+        
+        noise();
+    });
 
     gameloop();
-    
+
 
 })();
 

@@ -53,7 +53,8 @@ export class Gate
         
         // for ( let i=0; i<1; ++i )
         {
-            const pos = VEC2(RND01() * WIDTH, RND01()  * HEIGHT );
+            // const pos = VEC2(RND01() * WIDTH*.8 + WIDTH*.1, RND01()  * HEIGHT+ HEIGHT*.1 );
+            const pos = VEC2( WIDTH*.5, HEIGHT*.5 );
             const adv = randomDir();
             
             const types = [ GateType.Source, GateType.Attractor ];//, GateType.Attractor, GateType.Sink ];
@@ -101,6 +102,14 @@ export class Gate
 
         this.selected = null;
         return false;
+    }
+
+    align()
+    {
+        const pos = VEC2(RND01() * WIDTH*.8 + WIDTH*.1, RND01()  * HEIGHT+ HEIGHT*.1 );
+         this.gates.forEach( gt => {
+            gt.pos = pos;
+        });   
     }
 
     // private select( gate: GateFlow )
