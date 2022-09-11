@@ -28,10 +28,10 @@ interface FlowPart
 
 export class Flow
 {
-    noise = new Noise();
-    adv: vec2;
-    parts: Array<FlowPart>;
-    grid: Grid<number>;
+    private noise = new Noise();
+    private adv: vec2;
+    private parts: Array<FlowPart>;
+    private grid: Grid<number>;
 
     constructor(
     ) {
@@ -64,11 +64,21 @@ export class Flow
 
     update()
     {
-      
         this.grid.clear();
 
         this.renderParts();
-      
+    }
+
+    getParts( pos: vec2 )
+    {
+        const bkt = this.grid.getBucket( pos );
+
+        return bkt.map( idx => this.parts[idx] );
+    }
+
+    reycleParts( parts: Array<FlowPart> )
+    {
+        parts.forEach( part => this.newPart( part ) );
     }
 
     private renderParts()
@@ -92,7 +102,7 @@ export class Flow
         });
     }
 
-    private newPart( part: FlowPart )
+    public newPart( part: FlowPart )
     {
         // const pos_sta = VEC2( RND01() * WIDTH*.1+ WIDTH*.1, RND01() * HEIGHT*.1+ HEIGHT*.1 );//   QU.rotate( rot_sta, this.mainAxis ).scale(HSCALE);
         // const pos_sta = VEC2( RND01() * WIDTH*.2+ WIDTH*.2, RND01() * HEIGHT*.2+ HEIGHT*.2 );//   QU.rotate( rot_sta, this.mainAxis ).scale(HSCALE);

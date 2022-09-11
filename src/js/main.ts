@@ -62,7 +62,6 @@ import { TTWORLD } from "./WorldRefs";
     TTWORLD.flow = new Flow();
     TTWORLD.flow.setup();
 
-
     TTWORLD.cellular = new Cellular();
 
     TTWORLD.sim = new MarchingSquare({
@@ -72,10 +71,10 @@ import { TTWORLD } from "./WorldRefs";
 
     TTWORLD.slashUi = new UserSlash();
     TTWORLD.slashUi.setup();
+    
+    populate();
 
     TTWORLD.cellular.setup();
-
-    populate();
     
     noise();
 

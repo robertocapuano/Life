@@ -1,6 +1,10 @@
 import { FxParticle } from "../fx/FxParticle";
-import { CIRCLE_CLR, MAIN_RADIUS } from "../MainConstants";
+import { LOGI } from "../logs";
+import { CIRCLE_CLR, MAIN_RADIUS, SECS } from "../MainConstants";
+import { abs, cos, min, PI } from "../math";
 import { TTWORLD } from "../WorldRefs";
+
+const ANIM_TICKS = 1 / SECS(1);
 
 interface Cell
 {
@@ -39,10 +43,39 @@ export class Cellular
 
     update()
     {
+        this.life();
         this.drawCircles();
 
         
     }
+
+    private life()
+    {
+      const { pSys, flow } = TTWORLD;
+      const count = pSys.count();
+
+      for ( let i = 0; i < count; i++ )
+      {
+        const p_pos = pSys.getPos( i );
+        const r = pSys.getRadius( i );
+        const bkt = flow.getParts( p_pos );
+        if (!!bkt.length)
+        {
+          // LOGI(`${bkt.length}`);
+
+          for ( let prt of bkt )
+          {
+            if (prt.pos_sta.sub( p_pos ).mag()<r)
+              flow.newPart(prt);
+          }
+          if (this.cells[i].t>=1)
+            this.cells[i].t= 0;
+
+        }
+      }
+
+    }
+
 
     private ai()
     {
@@ -68,8 +101,11 @@ export class Cellular
 
       const r = pSys.getRadius(i);
 
+      const s = .7 + .3 * abs(cos( this.cells[i].t * PI ));
+      this.cells[i].t = min( this.cells[i].t+ANIM_TICKS, 1 );
+
       ctx.beginPath();
-      ctx.arc(c.x, c.y, r, 0, 2 * Math.PI);
+      ctx.arc(c.x, c.y, s * r, 0, 2 * Math.PI);
       ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
       // LOGI(`${this._ctx.fillStyle}`)
       // if (r===MAIN_RADIUS && i< 10)

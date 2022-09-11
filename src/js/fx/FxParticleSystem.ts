@@ -96,7 +96,6 @@ export class FxParticleSystem
             this.ft.length = 0;
             this.ct.length = 0;
         }
-        
     }
 
     private updateGrid()
