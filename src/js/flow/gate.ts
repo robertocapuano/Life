@@ -17,7 +17,7 @@ const ROWS = Math.trunc(HEIGHT/CELL_HEIGHT);
 enum GateType {
     Source,
     Attractor,
-    Sink,
+    // Sink,
 };
 
 interface GateFlow
@@ -53,7 +53,7 @@ export class Gate
         
         // for ( let i=0; i<1; ++i )
         {
-            const pos = VEC2(RND01() * WIDTH, RND01()  * HEIGHT );
+            const pos = VEC2(RND01() * WIDTH*.8 + WIDTH*.1, RND01()  * HEIGHT*.8+ HEIGHT*.1 );
             const adv = randomDir();
             
             const types = [ GateType.Source, GateType.Attractor ];//, GateType.Attractor, GateType.Sink ];
