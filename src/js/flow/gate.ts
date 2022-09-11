@@ -1,9 +1,7 @@
-import { ONE_SEC } from "../fx/FxParticle";
 import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
-import { VEC3_ZERO } from "../fx/vec3";
 import { Grid } from "../grid";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
-import { cos, min, PI, POW2, sin, sqrt, TWOPI } from "../math";
+import { cos, sin, sqrt, TWOPI } from "../math";
 import { randomDir, RND01 } from "../random";
 import { TTWORLD } from "../WorldRefs";
 

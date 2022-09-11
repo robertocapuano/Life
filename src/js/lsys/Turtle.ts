@@ -1,12 +1,10 @@
 import { FxAngle1PConstraint, FxAngle2PConstraint, FxBoxConstraint, FxDistancePointConstraint, FxLinkConstraint } from "../fx/FxConstraints";
-import { FxConstantForce } from "../fx/FxForces";
 import { FxParticle } from "../fx/FxParticle";
 import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { VEC2, vec2 } from "../fx/vec2";
 import { LOGI } from "../logs";
 import { AXIS_ANGLE, HEIGHT, WIDTH } from "../MainConstants";
-import { cos, RAD, sin } from "../math";
-import { RND01 } from "../random";
+import { cos, sin } from "../math";
 
 export class Turtle
 {
@@ -73,7 +71,7 @@ export class Turtle
         const u = pSys.addParticle( this.pos, this.main_radius );
         particles.push(u);
 
-        if ( this.last_part>=0)
+        if ( this.last_part >= 0 )
         {
             const L = pSys.getPos( this.last_part ).sub( pSys.getPos( particles[0] )).mag();
             pSys.addConstraint( FxLinkConstraint( this.last_part, particles[0], L, 1.1 * L ));
@@ -110,8 +108,8 @@ export class Turtle
            for ( let p of particles )
            {
                 const rp = pSys.getRadius( p );
-                const SW = VEC2(WIDTH-rp, HEIGHT-rp);
-                const ZERO = VEC2( rp, rp);
+                const SW = VEC2( WIDTH - rp, HEIGHT - rp );
+                const ZERO = VEC2( rp, rp );
                 pSys.addConstraint( FxBoxConstraint(p, ZERO, SW ) );
             }
        }
