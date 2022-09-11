@@ -56,7 +56,7 @@ export class Gate
         const pos = VEC2(WIDTH*.3, HEIGHT*.4);
         const adv = randomDir();
         
-        const types = [ GateType.Source, GateType.Attractor, GateType.Attractor, GateType.Sink ];
+        const types = [ GateType.Source, GateType.Attractor ];//, GateType.Attractor, GateType.Sink ];
         const NGATES = types.length;
 
         const RADIUS = 50;
@@ -201,7 +201,7 @@ export class Gate
 
     private compAdv( pos: vec2 ): vec2
     {
-        const MAG = 1e-2;
+        const MAG = 1e-1;
         const adv = VEC2_ZERO()
 
         for ( const gate of this.gates )

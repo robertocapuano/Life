@@ -17,3 +17,13 @@ export function Modulo(a: number, base: number) {
 }
 
 export function POW2( x: number ) { return x * x; }
+export function POW3( x: number ) { return x * x * x; }
+
+export function easeOutCubic(x: number): number {
+    return 1 - POW3(1 - x );
+}
+
+export function easeOutQuad(x: number): number {
+    return 1 - POW2(1 - x);
+}
+

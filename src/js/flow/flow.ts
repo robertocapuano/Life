@@ -29,7 +29,7 @@ interface FlowPart
 export class Flow
 {
     private noise = new Noise();
-    private adv: vec2;
+    // private adv: vec2;
     private parts: Array<FlowPart>;
     private grid: Grid<number>;
 
@@ -40,7 +40,7 @@ export class Flow
     
     setup()
     {
-        this.adv = randomDir().scale( ADV_SCALE );
+        // this.adv = randomDir().scale( ADV_SCALE );
         
         this.parts = [];
 

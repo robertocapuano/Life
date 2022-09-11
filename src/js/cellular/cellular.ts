@@ -1,7 +1,7 @@
 import { FxParticle } from "../fx/FxParticle";
 import { LOGI } from "../logs";
 import { CIRCLE_CLR, MAIN_RADIUS, SECS } from "../MainConstants";
-import { abs, cos, min, PI } from "../math";
+import { abs, cos, easeOutCubic, easeOutQuad, min, PI } from "../math";
 import { TTWORLD } from "../WorldRefs";
 
 const ANIM_TICKS = 1 / SECS(1);
@@ -103,9 +103,10 @@ export class Cellular
 
       const s = .7 + .3 * abs(cos( this.cells[i].t * PI ));
       this.cells[i].t = min( this.cells[i].t+ANIM_TICKS, 1 );
+      // const z = easeOutQuad(s);
 
       ctx.beginPath();
-      ctx.arc(c.x, c.y, s * r, 0, 2 * Math.PI);
+      ctx.arc( c.x, c.y, s * r, 0, 2 * Math.PI );
       ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
       // LOGI(`${this._ctx.fillStyle}`)
       // if (r===MAIN_RADIUS && i< 10)
