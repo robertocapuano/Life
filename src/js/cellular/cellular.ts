@@ -49,6 +49,11 @@ export class Cellular
         
     }
 
+    getCellular( idx: number ): Cell
+    {
+      return this.cells[idx];
+    }
+
     private life()
     {
       const { pSys, flow } = TTWORLD;
@@ -69,7 +74,10 @@ export class Cellular
               flow.newPart(prt);
           }
           if (this.cells[i].t>=1)
+          {
             this.cells[i].t= 0;
+
+          }
 
         }
       }
@@ -77,11 +85,11 @@ export class Cellular
     }
 
 
-    private ai()
-    {
+    // private ai()
+    // {
 
 
-    }
+    // }
 
   /**
    * Draw the outlines of the circles.

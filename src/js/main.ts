@@ -11,7 +11,8 @@ import { Turtle } from "./lsys/Turtle";
 import { FORWARD_STEP, HEIGHT, INTRA_RADIUS, MAIN_RADIUS, WIDTH } from "./MainConstants";
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
-import { RAD } from "./math";
+import { cos, RAD, sin, TWOPI } from "./math";
+import { populate } from "./populate";
 import { RND0N, RND11 } from "./random";
 import { UserSlash } from "./user-slash";
 import { TTWORLD } from "./WorldRefs";
@@ -72,7 +73,8 @@ import { TTWORLD } from "./WorldRefs";
     TTWORLD.slashUi = new UserSlash();
     TTWORLD.slashUi.setup();
     
-    populate();
+    const populate_fn = populate[ RND0N( populate.length) ]; //populate.length-1];//
+    populate_fn();
 
     TTWORLD.cellular.setup();
     
@@ -83,51 +85,6 @@ import { TTWORLD } from "./WorldRefs";
 
 })();
 
-
-function populate()
-{
-    const lSys = new LSystem(new Map<string,string>([
-        ['F', 'F[+F]F[-F]F'],
-/*            ['X','F[+X]F[-X]+X'],
-        ['F','FF'],
-*/
-        // ['F','FF[-F+F+F]+[+F-F-F]'],
-
-        // ['F', 'F[+F]F[-F][F]'],
-/*            ['X', 'F[+X][-X]FX'],
-        ['F','FF'],
-*/
-        ]),
-    );
-
-    {
-        const word = lSys.applyProd('F',2);
-        const turtle = new Turtle( 
-            MAIN_RADIUS,
-            INTRA_RADIUS,
-            VEC2(WIDTH * .5, HEIGHT ), 
-            RAD(-90), 
-            FORWARD_STEP, 
-            RAD(40),  
-        );
-        lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
-    }
-
-
-    // {
-    //     const word = lSys.applyProd('F',1);
-    //     const turtle = new Turtle( 
-    //         MAIN_RADIUS,
-    //         INTRA_RADIUS,
-    //         VEC2(WIDTH * .5, 0 ), 
-    //         RAD(+90), 
-    //         FORWARD_STEP, 
-    //         RAD(35),  
-    //     );
-    //     lSys.applyTurtle( turtle, word, pSys, );
-    // }
-}
-
 function noise()
 {
 
@@ -136,7 +93,10 @@ function noise()
 
         const u = RND0N(n);
 
-        TTWORLD.pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, 0 ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+        const cell = TTWORLD.cellular.getCellular(u);
+
+        const delta = 10 * (1-cell.t) * ONE_SEC;
+        TTWORLD.pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, delta ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
     };
 

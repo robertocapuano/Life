@@ -2,7 +2,7 @@ import { VEC2, vec2, VEC2_ZERO } from "../fx/vec2";
 import { Grid } from "../grid";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
 import { cos, sin, sqrt, TWOPI } from "../math";
-import { randomDir, RND01 } from "../random";
+import { randomDir, RND01, RND0N } from "../random";
 import { TTWORLD } from "../WorldRefs";
 
 const PULSE_TICKS = 1/SECS(2);
@@ -51,30 +51,33 @@ export class Gate
 
         this.gates = [];
         
-        const pos = VEC2(WIDTH*.3, HEIGHT*.4);
-        const adv = randomDir();
-        
-        const types = [ GateType.Source, GateType.Attractor ];//, GateType.Attractor, GateType.Sink ];
-        const NGATES = types.length;
+        // for ( let i=0; i<1; ++i )
+        {
+            const pos = VEC2(RND01() * WIDTH, RND01()  * HEIGHT );
+            const adv = randomDir();
+            
+            const types = [ GateType.Source, GateType.Attractor ];//, GateType.Attractor, GateType.Sink ];
+            const NGATES = types.length;
 
-        const RADIUS = 50;
-        const STEP = .1;
+            const RADIUS = 50;
+            const STEP = .1;
 
-        types.forEach( (type, idx ) => {
-            this.gates.push({
-                pos,
-                adv,
-                type,
-                prog: idx,
-                t: 1,
-                radius: RADIUS  * (1 - idx * STEP),
-                active: type===GateType.Source,//false,//idx === NGATES-1,
-                disabled: false,
-                delta: idx * TWOPI / (NGATES-1),
+            types.forEach( (type, idx ) => {
+                this.gates.push({
+                    pos,
+                    adv,
+                    type,
+                    prog: idx,
+                    t: 1,
+                    radius: RADIUS  * (1 - idx * STEP),
+                    active: type===GateType.Source,//false,//idx === NGATES-1,
+                    disabled: false,
+                    delta: idx * TWOPI / (NGATES-1),
+                });
             });
-        });
 
-        this.selected = this.gates[NGATES-1];
+            this.selected = this.gates[NGATES-1];
+        }
     }
 
     update()
@@ -124,9 +127,12 @@ export class Gate
         return true;
     }
 
-    getSource()
+    getSource(): vec2
     {
-        const { pos } = this.gates[0];
+        const gates = this.gates.filter( gt => gt.type === GateType.Source );
+
+        const gate =  gates[RND0N(gates.length)];
+        const { pos } = gate;//this.gates[0];
         const r = this.gates[0].radius * RND01();
         const alpha = RND01() * TWOPI;
 
@@ -175,13 +181,27 @@ export class Gate
                 const bkt = this.grid.getBucket(pos);
                 if (!bkt.length)
                     bkt.push( VEC2_ZERO() );
-                    // this.grid.add( adv, pos, WIDTH );
+                // this.grid.add( adv, pos, WIDTH );
 
                 // bkt[0] = adv.mag()>bkt[0].mag() ? adv : bkt[0];// .addInPlace( adv );
                 bkt[0].addInPlace( adv );
             }
         }
 
+
+        // const G = VEC2(0, +3e-3);
+
+        // for ( let i=0; i<ROWS; ++i )
+        // {
+        //     for ( let j=0; j<COLS; ++j )
+        //     {
+        //         pos.x = (i+.5) * CELL_WIDTH;
+        //         pos.y = (j+.5) * CELL_HEIGHT
+
+        //         const bkt = this.grid.getBucket(pos);
+        //         bkt[0].addInPlace(G );
+        //     }
+        // }
         // // this.gates[0].adv = randomDir();
         // const EPS = 1;
 
@@ -213,7 +233,7 @@ export class Gate
 
             const dire = diff.normalize();
          
-            const mag = ( (gate.prog+1)*MAG ) / sqrt(dist);//(gate.prog+1)*.2+
+            const mag = ( MAG ) / sqrt(dist);//(gate.prog+1)*.2+
 
             const adv_g = dire.scale(mag);
             adv.addInPlace( adv_g )

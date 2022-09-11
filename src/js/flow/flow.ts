@@ -1,9 +1,9 @@
 import { ONE_SEC } from "../fx/FxParticle";
-import { VEC2, vec2 } from "../fx/vec2";
+import { vec2 } from "../fx/vec2";
 import { Grid } from "../grid";
 import { HEIGHT, SECS, WIDTH } from "../MainConstants";
 import { PI, sin } from "../math";
-import { randomDir, RND01 } from "../random";
+import { RND01 } from "../random";
 import { TTWORLD } from "../WorldRefs";
 import { Noise } from "./noise";
 
