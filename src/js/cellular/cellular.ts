@@ -1,7 +1,6 @@
 import { FxParticle } from "../fx/FxParticle";
-import { LOGI } from "../logs";
 import { CIRCLE_CLR, MAIN_RADIUS, SECS } from "../MainConstants";
-import { abs, cos, easeOutCubic, easeOutQuad, min, PI } from "../math";
+import { abs, cos, min, PI } from "../math";
 import { TTWORLD } from "../WorldRefs";
 
 const ANIM_TICKS = 1 / SECS(1);
@@ -85,11 +84,7 @@ export class Cellular
     }
 
 
-    // private ai()
-    // {
-
-
-    // }
+   
 
   /**
    * Draw the outlines of the circles.
@@ -116,17 +111,10 @@ export class Cellular
       ctx.beginPath();
       ctx.arc( c.x, c.y, s * r, 0, 2 * Math.PI );
       ctx.strokeStyle = 'white';//'#0096ff';//'#9437ff';
-      // LOGI(`${this._ctx.fillStyle}`)
-      // if (r===MAIN_RADIUS && i< 10)
-      //   // this._ctx.lineWidth = 2;
-      //   this._ctx.fillStyle = 'purple';//,'purple';
-      // else
+     
       ctx.fillStyle = '#942193';
       ctx.stroke();
-      // this._ctx.fill();
-      // LOGI(`${this._ctx.fillStyle}`)
-      // if (r===MAIN_RADIUS)
-      //   this._ctx.stroke();
+     
     }
   };
 

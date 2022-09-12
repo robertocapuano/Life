@@ -167,43 +167,6 @@ export class vec3
 }
 
 
-// export interface vec3
-// {
-//     x: number;
-//     y: number;
-// }
-
-// export function add( a: vec3, b: vec3 )
-// {
-// }
-
-// export function addInPlace( a: vec3, b: vec3 ): void
-// {
-//     a.x += b.x;
-//     a.y += b.y;
-// }
-
-// negate(): vec3
-// {
-//     const a = this;
-
-//     return new vec3( -a.x, - a.y );
-// }
-
-
-// export function dot( a: vec3 )
-// {
-// }
-
-// export function sub( a: vec3, b: vec3 )
-// {
-//     return a.sub(b);
-// }
-
-// export function mag( a: vec3 ): number
-// {
-//     return a.mag()
-// }
 
 
 export const VEC3_ZERO = () => new vec3(0,0,0);

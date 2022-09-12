@@ -152,12 +152,6 @@ export class Flow
 
         this.grid.add( part.idx, part.pos_sta, 1 );
 
-        // Object.assign( part, {
-        //     pos_sta,
-        //     vel_sta,
-        //     pos_end,
-        // });
-      
         return true;
     }
 

@@ -18,22 +18,6 @@ export class Turtle
         public last_part: number = -1,
     ) {}
 
-    // root( pSys: FxParticleSystem ): FxParticle
-    // {
-    //     const r = this.main_radius;
-    //     const v = pSys.addParticle( this.pos, r );
-    //     const dire = VEC2( 
-    //         cos( this.angle ),
-    //         sin( this.angle ),
-    //         );
-            
-    //     const next_pos = this.pos.add( dire.scale( r ) );
-        
-    //     this.pos = next_pos ;
-    //     this.last_part = v;
-    //     return v;
-    // }
-
     forward( pSys: FxParticleSystem ): Array<FxParticle>
     {
         const particles = new Array<FxParticle>();

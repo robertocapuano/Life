@@ -147,35 +147,6 @@ export class vec2
     }
 }
 
-
-// export interface vec2
-// {
-//     x: number;
-//     y: number;
-// }
-
-// export function add( a: vec2, b: vec2 )
-// {
-// }
-
-// export function addInPlace( a: vec2, b: vec2 ): void
-// {
-//     a.x += b.x;
-//     a.y += b.y;
-// }
-
-// negate(): vec2
-// {
-//     const a = this;
-
-//     return new vec2( -a.x, - a.y );
-// }
-
-
-// export function dot( a: vec2 )
-// {
-// }
-
 export function sub( a: vec2, b: vec2 )
 {
     return a.sub(b);
