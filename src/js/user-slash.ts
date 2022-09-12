@@ -1,6 +1,6 @@
 import TinyGesture from 'tinygesture';
 import { vec2, VEC2 } from './fx/vec2';
-import { LOGI } from "./logs";
+import { LOGD, LOGI } from "./logs";
 import { TTWORLD } from "./WorldRefs";
 
 // https://npm.io/package/tinygesture
@@ -60,70 +60,21 @@ export class UserSlash
         this.gesture = new TinyGesture(TTWORLD.canvas,options);
 
         this.gesture.on('panstart', (event: MouseEvent) => {
-            // Always the original mouse or touch event.
-            // This service uses passive listeners, so you can't call
-            // event.preventDefault() on any of the events.
-            event;
-            // The (screen) x coordinate of the start of the gesture.
-            this.gesture.touchStartX;
-            // The (screen) y coordinate of the start of the gesture.
-            this.gesture.touchStartY;
-
-            const currX = event.clientX - TTWORLD.canvas.offsetLeft;
-            const currY = event.clientY - TTWORLD.canvas.offsetTop;
-
-            LOGI(`panstart: ${ currX}, ${ currY}`);
-            TTWORLD.gate.selectAt( VEC2(currX,currY ) );
+            TTWORLD.gate.selectAt( UserSlash.eventToPos( event ));
 
             // find gate
           });
           this.gesture.on('panmove', (event:MouseEvent) => {
-            // Everything from panstart, and...
-          
-            // The amount the gesture has moved in the x direction.
-            this.gesture.touchMoveX;
-            // The amount the gesture has moved in the y direction.
-            this.gesture.touchMoveY;
-            // The instantaneous velocity in the x direction.
-            this.gesture.velocityX;
-            // The instantaneous velocity in the y direction.
-            this.gesture.velocityY;
-            // Boolean, whether the gesture has passed the swiping threshold in the x
-            // direction.
-            this.gesture.swipingHorizontal;
-            // Boolean, whether the gesture has passed the swiping threshold in the y
-            // direction.
-            this.gesture.swipingVertical;
-            // Which direction the gesture has moved most. Prefixed with 'pre-' if the
-            // gesture hasn't passed the corresponding threshold.
-            // One of: ['horizontal', 'vertical', 'pre-horizontal', 'pre-vertical']
-            this.gesture.swipingDirection;
-            // To tell if the gesture is a left swipe, you can do something like this:
-            // if (this.gesture.swipingDirection === 'horizontal' && this.gesture.touchMoveX < 0) {
-            //   alert('You are currently swiping left.');
-            // }
-
-            //   if (this.gesture.swipingDirection === 'horizontal' && this.gesture.touchMoveX > 0) {
-            //     alert('You are currently swiping right.');
-            // }
-            LOGI('panmove');
+           
+            // LOGI('panmove');
 
 
             TTWORLD.gate.moveTo( UserSlash.eventToPos( event ) );
 
           });
           this.gesture.on('panend', (event) => {
-            // Everything from panstart and panmove, and...
           
-            // The (screen) x coordinate of the end of the gesture.
-            this.gesture.touchEndX;
-            // The (screen) y coordinate of the end of the gesture.
-            this.gesture.touchEndY;
-          
-            // Swipe events are fired depending on the touch end coordinates, so
-            // properties like swipingDirection may be incorrect at this point, since
-            // they're based on the last touch move coordinates.
-            LOGI('panend');
+            // LOGI('panend');
 
           });
         /*

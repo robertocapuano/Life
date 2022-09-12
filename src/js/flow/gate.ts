@@ -51,7 +51,6 @@ export class Gate
 
         this.gates = [];
         
-        // for ( let i=0; i<1; ++i )
         {
             const pos = VEC2(RND01() * WIDTH*.8 + WIDTH*.1, RND01()  * HEIGHT*.8+ HEIGHT*.1 );
             const adv = randomDir();
@@ -103,18 +102,6 @@ export class Gate
         return false;
     }
 
-    // private select( gate: GateFlow )
-    // {
-    //     if (!!this.selected)
-    //     {
-    //         this.selected.active = false;
-    //         this.selected = null;
-    //     }
-
-    //     gate.active = true;
-    //     this.selected = gate;
-    // }
-
     moveTo( dest: vec2 ): boolean
     {
         if (!this.selected)
@@ -145,24 +132,6 @@ export class Gate
     {
         const b = this.grid.getBucket( pos );
         return b[0] ?? VEC2_ZERO();
-
-        // const step = 1 / this.gates.length;
-        // const l = this.gates.length-1;
-        // const i = min( t * this.gates.length, l);
-        // const j = min( i+1, l );
-
-        // this.gates[i].pos.sub( this.gates[j].pos ).normalize().scale( 
-
-        // const alpha = t * TWOPI;
-
-        // const dire = VEC2_ZERO();
-
-        // this.gates.forEach( (gate) => {
-        //     const w = cos(  gate.delta - alpha ) ;
-        //     dire.addInPlace( gate.adv.scale(w) );
-        // });
-
-        // return dire;
     }
 
     private compGrid()
@@ -181,40 +150,12 @@ export class Gate
                 const bkt = this.grid.getBucket(pos);
                 if (!bkt.length)
                     bkt.push( VEC2_ZERO() );
-                // this.grid.add( adv, pos, WIDTH );
 
-                // bkt[0] = adv.mag()>bkt[0].mag() ? adv : bkt[0];// .addInPlace( adv );
                 bkt[0].addInPlace( adv );
             }
         }
 
 
-        // const G = VEC2(0, +3e-3);
-
-        // for ( let i=0; i<ROWS; ++i )
-        // {
-        //     for ( let j=0; j<COLS; ++j )
-        //     {
-        //         pos.x = (i+.5) * CELL_WIDTH;
-        //         pos.y = (j+.5) * CELL_HEIGHT
-
-        //         const bkt = this.grid.getBucket(pos);
-        //         bkt[0].addInPlace(G );
-        //     }
-        // }
-        // // this.gates[0].adv = randomDir();
-        // const EPS = 1;
-
-        // for ( let i=1; i<this.gates.length; ++i )
-        // {
-        //     const diff = this.gates[i].pos.sub(  this.gates[i-1].pos );
-        //     const dist = diff.mag();
-        //     const dire = (dist<EPS) ? randomDir() : diff.normalize();
-           
-        //     this.gates[i].adv = dire;
-        // }
-
-        // this.gates[0].adv = this.gates[1].adv.clone();
     }
 
     private compAdv( pos: vec2 ): vec2
@@ -258,20 +199,7 @@ export class Gate
             }
 
             ctx.beginPath();
-            // switch( gate.type )
-            {
-                // case GateType.Source:
-                // {
-                //     ctx.rect( gate.pos.x- r, gate.pos.y-r, 2*r, 2 *r );
-                //     break;
-                // }
-                // default:
-                // {
-                    ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
-                //     break;
-                // }
-            }
-
+            ctx.arc(gate.pos.x, gate.pos.y, r, 0, 2 * Math.PI, false);
             ctx.strokeStyle = 'white';
             ctx.stroke();
         });
