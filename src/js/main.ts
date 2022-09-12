@@ -24,7 +24,7 @@ import { TTWORLD } from "./WorldRefs";
     const name = document.createElement("div");
     document.body.appendChild(name);
     
-    name.appendChild(document.createTextNode(`High Cost of Living v.${VERSION} - (c) ${new Date().getFullYear()} - 2 THINK SNC`));
+    name.appendChild(document.createTextNode(`The High Cost of Living v.${VERSION} - (c) ${new Date().getFullYear()} - 2 THINK SNC`));
     
 
     ////
