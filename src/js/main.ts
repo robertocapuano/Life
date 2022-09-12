@@ -20,7 +20,12 @@ import { TTWORLD } from "./WorldRefs";
     canvas.width = WIDTH;
     canvas.height = HEIGHT;
     document.body.appendChild(canvas);
+
+    const name = document.createElement("div");
+    document.body.appendChild(name);
+    name.appendChild(document.createTextNode('High Cost of Living v1.0.0'));
     
+
     ////
 
     const ctx = canvas.getContext('2d');

@@ -35,5 +35,18 @@
     display: block;
     width: 800px;
 }
- 
+
+div {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  width: 800px;
+  
+  color: #ff40ff;
+  font-size: small;
+  text-align: right;
+  font-family: sans-serif;
+}
   
