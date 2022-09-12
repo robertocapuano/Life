@@ -37,6 +37,7 @@ export class Gate
     private gates: Array<GateFlow>;
     // noise = new Noise();
     private selected: GateFlow;
+    private isMoving: boolean;
 
     private grid: Grid<vec2>;
 
@@ -50,7 +51,8 @@ export class Gate
         this.grid.clear();
 
         this.gates = [];
-        
+        this.isMoving = false;
+
         {
             const pos = VEC2(RND01() * WIDTH*.8 + WIDTH*.1, RND01()  * HEIGHT*.8+ HEIGHT*.1 );
             const adv = randomDir();
@@ -111,6 +113,28 @@ export class Gate
 
         this.compGrid();
 
+        this.isMoving = true;
+
+        return true;
+    }
+
+    private drawLine()
+    {
+        const { ctx } = TTWORLD;
+
+            const { pos: src_pos } = this.gates[GateType.Attractor];
+            const { pos: dst_pos } = this.gates[GateType.Source];
+
+            ctx.beginPath();
+            ctx.moveTo( src_pos.x, src_pos.y );
+            ctx.lineTo( dst_pos.x, dst_pos.y );
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+    }
+
+    movedTo( dest: vec2 ): boolean
+    {
+        this.isMoving = false;
         return true;
     }
 
@@ -204,6 +228,8 @@ export class Gate
             ctx.stroke();
         });
         
+        if (this.isMoving)
+            this.drawLine();
     }
 
 

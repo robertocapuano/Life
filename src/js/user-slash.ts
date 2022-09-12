@@ -72,10 +72,10 @@ export class UserSlash
             TTWORLD.gate.moveTo( UserSlash.eventToPos( event ) );
 
           });
-          this.gesture.on('panend', (event) => {
+          this.gesture.on('panend', (event: MouseEvent) => {
           
             // LOGI('panend');
-
+            TTWORLD.gate.movedTo( UserSlash.eventToPos( event ) );
           });
         /*
           this.gesture.on('swiperight', (event) => {
