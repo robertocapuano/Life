@@ -6,7 +6,7 @@ import { FxConstantForce } from "./fx/FxForces";
 import { ONE_SEC } from "./fx/FxParticle";
 import { FxParticleSystem } from "./fx/FxParticleSystem";
 import { VEC2 } from "./fx/vec2";
-import { HEIGHT, WIDTH } from "./MainConstants";
+import { HEIGHT, VERSION, WIDTH } from "./MainConstants";
 import { MarchingSquare } from "./marching-square/marching-square";
 import { metaball } from "./marching-square/metaball";
 import { populate } from "./populate";
@@ -23,7 +23,8 @@ import { TTWORLD } from "./WorldRefs";
 
     const name = document.createElement("div");
     document.body.appendChild(name);
-    name.appendChild(document.createTextNode('High Cost of Living v1.0.0'));
+    
+    name.appendChild(document.createTextNode(`High Cost of Living v.${VERSION} - (c) ${new Date().getFullYear()} - 2 THINK SNC`));
     
 
     ////
