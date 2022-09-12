@@ -78,7 +78,7 @@ function noise()
         const cell = TTWORLD.cellular.getCellular(u);
 
         const delta = 10 * (1-cell.t) * ONE_SEC;
-        TTWORLD.pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 5 * ONE_SEC, delta ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
+        TTWORLD.pSys.addTmpForce( FxConstantForce( u, VEC2( RND11() * 10 * ONE_SEC, delta ) ) );//randomDir().scale( 2 * ONE_SEC) ) );
 
     };
 
