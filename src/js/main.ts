@@ -21,6 +21,8 @@ import { TTWORLD } from "./WorldRefs";
     canvas.height = HEIGHT;
     document.body.appendChild(canvas);
     
+    ////
+
     const ctx = canvas.getContext('2d');
     if (!ctx)
         return;

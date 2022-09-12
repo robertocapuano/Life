@@ -12,8 +12,8 @@
     overflow: hidden;
     font-family: Arial, Helvetica, sans-serif;
   
-    /* background-color: #000; */
-    background-image: radial-gradient(circle at center, #07133E 10%, #153215 100%);
+    background-color: #681767;
+    /* background-image: radial-gradient(circle at center, #07133E 10%, #153215 100%); */
   
   }
   
@@ -27,7 +27,13 @@
                                     supported by Chrome and Opera */
   }
   
-  
-  
-  /* @import './intro.css'; */
+  canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 800px;
+}
+ 
   

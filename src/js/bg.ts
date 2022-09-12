@@ -8,11 +8,11 @@ export function drawBg(  )
   const H = canvas.height;
 
   {
-    const gradient = ctx.createLinearGradient(0,H, W,0);
-    gradient.addColorStop(0, '#9437ff');
-    gradient.addColorStop(.75, '#942193');
+    // const gradient = ctx.createLinearGradient(0,H, W,0);
+    // gradient.addColorStop(0, '#9437ff');
+    // gradient.addColorStop(.75, '#942193');
     // gradient.addColorStop(1, '#0096ff');
-    gradient.addColorStop(1, '#ffffff');
+    // gradient.addColorStop(1, '#ffffff');
     // ctx.fillStyle = gradient;
     ctx.fillStyle = '#942193';
 
