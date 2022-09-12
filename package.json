@@ -1,5 +1,5 @@
 {
-  "name": "high-cost-of-living",
+  "name": "life",
   "version": "1.0.0",
   "description": "Feed the creature and keep a balance between life and death.",
   "scripts": {
@@ -12,7 +12,7 @@
   "author": "Roberto Capuano",
   "homepage": "https://2think.it",
   "repository": {
-    "url": "git@github.com:robertocapuano/HighCostOfLiving.git"
+    "url": "git@github.com:robertocapuano/Life.git"
   },
   "license": "GPL-3.0",
   "devDependencies": {
