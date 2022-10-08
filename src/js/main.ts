@@ -26,7 +26,11 @@ import { TTWORLD } from "./WorldRefs";
     
     name.appendChild(document.createTextNode(`The High Cost Of Life v.${VERSION} - (c) ${new Date().getFullYear()} - 2 THINK SNC`));
     
+    const fps_div = document.createElement("div");
+    document.body.appendChild(fps_div);
 
+    const fps = document.createTextNode('');
+    fps_div.appendChild( fps );
     ////
 
     const ctx = canvas.getContext('2d');
@@ -62,7 +66,7 @@ import { TTWORLD } from "./WorldRefs";
     
     noise();
 
-    gameloop();
+    gameloop(fps);
     
 
 })();
@@ -86,8 +90,11 @@ function noise()
 
 }
 
-function gameloop()
+function gameloop( fps: Text )
 {
+    let framerate = 0;
+    let lastFrame = Date.now();
+
     const update = () =>
     {
         drawBg();
@@ -101,6 +108,21 @@ function gameloop()
         TTWORLD.sim.drawSmoothContours();
         // TTWORLD.drawCircles(TTWORLD.pSys);
 
+        if (false)
+        {
+            ++framerate;
+        
+            const currentTime = Date.now();
+            
+            if (currentTime - lastFrame>=1000)
+            {
+                fps.data = ''+framerate;
+                lastFrame = currentTime;
+                framerate = 0;
+            }
+        }
+
+        
         requestAnimationFrame(update);
     };
 
