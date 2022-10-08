@@ -76,17 +76,17 @@ export function FxDistancePointConstraint(
     return {
             apply: ( p: Array<vec2> ) => {
 
-            const p_u = p[u];
-            const diff = sub( p_u, pivot_pos );
-            const dist = diff.mag();
-            if (dist<Number.EPSILON)
-                return;
+                const p_u = p[u];
+                const diff = sub( p_u, pivot_pos );
+                const dist = diff.mag();
+                if (dist<Number.EPSILON)
+                    return;
 
-            const dire = diff.normalize();
-            const new_dist = clamp( dist, min_dist, max_dist );
+                const dire = diff.normalize();
+                const new_dist = clamp( dist, min_dist, max_dist );
 
-            const u_pos =pivot_pos.add( dire.scaleInPlace( new_dist ) );
-            p[u] = u_pos;
+                const u_pos =pivot_pos.add( dire.scaleInPlace( new_dist ) );
+                p[u] = u_pos;
 
         },
         has: ( p: FxParticle ) => ( p === u ),
