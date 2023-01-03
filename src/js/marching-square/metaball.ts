@@ -1,4 +1,3 @@
-import { FxParticleSystem } from "../fx/FxParticleSystem";
 import { TTWORLD } from "../WorldRefs";
 
 export function metaball( x: number, y: number )
