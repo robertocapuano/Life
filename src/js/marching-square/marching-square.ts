@@ -343,7 +343,7 @@ export class MarchingSquare
   /**
    * Given coordinate pairs in (row, col) format, draw a line on the canvas.
    */
-  drawScaledLine(a: number[], b: number[])
+  private drawScaledLine(a: number[], b: number[])
   {
     var x0 = a[1] * this._cellSize;
     var y0 = a[0] * this._cellSize;
@@ -359,7 +359,7 @@ export class MarchingSquare
   /**
    * Draw the marching squares contour without linear interpolation.
    */
-  draw45DegContours()
+  private draw45DegContours()
   {
     this._ctx.strokeStyle = "green";
     for (var i = 0; i < this._cellTypes.length; i++)
