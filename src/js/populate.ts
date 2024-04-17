@@ -11,9 +11,7 @@ export const populate = [
 {
     const lSys = new LSystem(new Map<string,string>([
         ['F', 'F[+F]F[-F]F'],
-
-        ]),
-    );
+    ]));
 
     {
         const word = lSys.applyProd('F',2);
@@ -27,15 +25,11 @@ export const populate = [
         );
         lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
     }
-
-
 },
 ()=> {
     const lSys = new LSystem(new Map<string,string>([
         ['F', 'F[+F]F[-F]F'],
-
-        ]),
-    );
+    ]));
 
     {
         const word = lSys.applyProd('F',2);
@@ -49,18 +43,12 @@ export const populate = [
         );
         lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
     }
-
-
-
 },
 () => {
     const lSys = new LSystem(new Map<string,string>([
-            ['X','F[+X]F[-X]+X'],
+        ['X','F[+X]F[-X]+X'],
         ['F','FF'],
-
-
-        ]),
-    );
+    ]));
 
     {
         const word = lSys.applyProd('X',2);
@@ -83,17 +71,13 @@ export const populate = [
         );
         lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
     }
-
-    
 },
 ()=>{
     const N = 6;
 
     const lSys = new LSystem(new Map<string,string>([
         ['F', 'F[+F]F[-F]F'],
-
-        ]),
-    );
+    ]));
     const word = lSys.applyProd('F',1);
 
     for ( let i=0; i<N; ++i )
@@ -111,20 +95,14 @@ export const populate = [
         );
         lSys.applyTurtle( turtle, word, TTWORLD.pSys, );
     }
-   
 },
-
 
 () =>
 {
     const lSys = new LSystem(new Map<string,string>([
-
-        
-            ['X', 'F[+X][-X]FX'],
+        ['X', 'F[+X][-X]FX'],
         ['F','FF'],
-
-        ]),
-    );
+    ]));
 
     for ( let i=0; i<3; ++i )
     {
@@ -142,12 +120,9 @@ export const populate = [
 
 () => {
     const lSys = new LSystem(new Map<string,string>([
-
-           ['X', 'F[+X][-X]FX'],
+        ['X', 'F[+X][-X]FX'],
         ['F','FF'],
-
-        ]),
-    );
+    ]));
 
     {
         const word = lSys.applyProd('X',3);
