@@ -44,8 +44,6 @@ export class Cellular
     {
         this.life();
         this.drawCircles();
-
-        
     }
 
     getCellular( idx: number ): Cell
@@ -75,16 +73,10 @@ export class Cellular
           if (this.cells[i].t>=1)
           {
             this.cells[i].t= 0;
-
           }
-
         }
       }
-
     }
-
-
-   
 
   /**
    * Draw the outlines of the circles.
@@ -100,7 +92,8 @@ export class Cellular
     for ( let i = 0; i < count; i++ )
     {
       const c = pSys.getPos(i);
-      if (!c) continue;
+      if (!c) 
+        continue;
 
       const r = pSys.getRadius(i);
 
@@ -117,6 +110,4 @@ export class Cellular
      
     }
   };
-
-
 }
